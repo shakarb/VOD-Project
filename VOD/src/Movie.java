@@ -28,4 +28,8 @@ public class Movie {
         this.isAvailable = isAvailable;
     }
 
+    public void addToAvailables() {
+        setIsAvailable(true);
+    }
+
 }

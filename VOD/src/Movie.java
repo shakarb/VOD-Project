@@ -3,17 +3,20 @@ import java.util.List;
 
 public class Movie {
     String title;
-    String year;
+    String category;
+    int year;
     List<String> actors = new ArrayList<>();
     boolean isAvailable;
+    double popularity;
 
 
-    public Movie(String movieTitle, String year, List<String> actors,
-                 boolean isAvailable) {
+    public Movie(String movieTitle, int year, List<String> actors,
+                 boolean isAvailable,  double inc_popularity) {
         this.title = movieTitle;
         this.year = year;
         this.actors = actors;
         this.isAvailable = isAvailable;
+        this.popularity = inc_popularity;
     }
 
     public String getTitle() {
@@ -30,6 +33,9 @@ public class Movie {
 
     public void addToAvailables() {
         setIsAvailable(true);
+    }
+    public void removeFromAvailables() {
+        setIsAvailable(false);
     }
 
 }

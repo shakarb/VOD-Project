@@ -5,13 +5,13 @@ public class Movie {
     String title;
     String category;
     int year;
-    List<String> actors = new ArrayList<>();
+    String[] actors;
     boolean isAvailable;
     double popularity;
 
-
-    public Movie(String movieTitle, int year, List<String> actors,
+    public Movie(String movieTitle, int year, String[] actors,
                  boolean isAvailable,  double inc_popularity) {
+
         this.title = movieTitle;
         this.year = year;
         this.actors = actors;

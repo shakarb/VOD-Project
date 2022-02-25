@@ -6,15 +6,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DbUtils implements IDbUtils {
-    MySqlDB vodDb;
+    PostgreSqlDB vodDb;
 
     DbUtils() {
-        this.vodDb = MySqlDB.getVodInstance();
+        this.vodDb = PostgreSqlDB.getVodInstance();
     }
 
-    public String login(String username, String password) throws SQLException {
-        String query = "SELECT * FROM accounts where userId = ?";
-        ResultSet result = vodDb.fetch(query, username);
+    public String login(int user_id, String password) throws SQLException {
+        String query = "SELECT * FROM users where user_id = ?";
+        ResultSet result = vodDb.fetch(query, user_id);
 
         while(result.next()) {
             String retrievedPassword = result.getString("password");
@@ -26,16 +26,19 @@ public class DbUtils implements IDbUtils {
     }
 
     public List<Movie> getAllMovies() throws SQLException {
+
         List<Movie> movies = new ArrayList<Movie>();
         String query = "SELECT * FROM movies";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
             String movieTitle = result.getString("title");
+            String category = result.getString("category");
             int year = result.getInt("year");
             Array actorsArr = result.getArray("actors");
             String[] actors = (String[]) actorsArr.getArray();
-            boolean isAvailable = result.getBoolean("isAvailable");
-            Movie movie = new Movie(movieTitle, year, actors, isAvailable);
+            boolean isAvailable = result.getBoolean("is_available");
+            double popularity = result.getDouble("popularity");
+            Movie movie = new Movie(movieTitle, category, year, actors, isAvailable, popularity);
             movies.add(movie);
         }
         return movies;
@@ -43,26 +46,29 @@ public class DbUtils implements IDbUtils {
 
     public List<Movie> getAvailableMovies() throws SQLException {
         List<Movie> movies = new ArrayList<Movie>();
-        String query = "SELECT * FROM movies where isAvailable = 1";
+        String query = "SELECT * FROM movies where is_available = true";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
             String movieTitle = result.getString("title");
+            String category = result.getString("category");
             int year = result.getInt("year");
             Array actorsArr = result.getArray("actors");
             String[] actors = (String[]) actorsArr.getArray();
-            boolean isAvailable = result.getBoolean("isAvailable");
-            Movie movie = new Movie(movieTitle, year, actors, isAvailable);
+            boolean isAvailable = result.getBoolean("is_available");
+            double popularity = result.getDouble("popularity");
+            Movie movie = new Movie(movieTitle, category, year, actors, isAvailable, popularity);
             movies.add(movie);
         }
         return movies;
     }
 
-    public void addMovie(String title, int year, String[] actors, boolean isAvailable) throws SQLException {
-        //String query = "INSERT INTO movies (title, year, actors, isAvailable) VALUES ('ds',32,'[\"shaked\"]',true)";
-        String query = "INSERT INTO movies (title, year, actors, isAvailable) VALUES ('ds',32,'\"shaked\",\"ds\"',true)";
-        vodDb.fetch(query);
-        //String query = "INSERT INTO movies (title, year, actors, isAvailable) VALUES (?,?,?,?)";
-        //vodDb.fetch(query, title, year, actors, isAvailable);
+    public void addMovie(String title, String category, int year, String[] actors,
+                         boolean isAvailable, double popularity) throws SQLException {
+
+        //vodDb.fetch(query);
+        String query = "INSERT INTO movies (title, category, year, actors, is_available, popularity) " +
+                "VALUES (?,?,?,?,?,?)";
+        vodDb.fetch(query, title, category, year, actors, isAvailable, popularity);
 
     }
 

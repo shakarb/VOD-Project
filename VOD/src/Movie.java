@@ -9,10 +9,11 @@ public class Movie {
     boolean isAvailable;
     double popularity;
 
-    public Movie(String movieTitle, int year, String[] actors,
+    public Movie(String movieTitle, String category, int year, String[] actors,
                  boolean isAvailable,  double inc_popularity) {
 
         this.title = movieTitle;
+        this.category = category;
         this.year = year;
         this.actors = actors;
         this.isAvailable = isAvailable;

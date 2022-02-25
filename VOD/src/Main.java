@@ -7,21 +7,14 @@ public class Main {
     public static void main(String[] args) {
         IDbUtils dbUtils = new DbUtils();
         try {
-            /*
-            String result = dbUtils.login("root", "root");
-            System.out.println(result);
+            //List<Movie> moviesResult = dbUtils.getAllMovies();
+            //System.out.println(moviesResult.get(0));
 
-            ResultSet moviesResult = dbUtils.getAllMovies();
-            System.out.println(moviesResult);
+            //List<Movie> moviesResult = dbUtils.getAvailableMovies();
+            //System.out.println(moviesResult.get(0));
 
-            moviesResult = dbUtils.getAvailableMovies();
-            System.out.println(moviesResult);
-
-             */
             //String[] actors = {"Adi"};
-            //dbUtils.addMovie("inception", 2019, actors, true);
-            List<Movie> moviesResult = dbUtils.getAllMovies();
-            System.out.println(moviesResult);
+            //dbUtils.addMovie("inception", "romance", 2019, actors, true, 5);
 
         } catch(Exception e) {
 

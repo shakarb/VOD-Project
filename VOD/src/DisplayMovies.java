@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class DisplayMovies {
@@ -23,7 +22,8 @@ public class DisplayMovies {
         this.sortingStrategy = sortingStrategy;
     }
 
-    public List<Movie> getList() {
+    public List<Movie> getSortedList() {
+        sortMovies();
         return list;
     }
 

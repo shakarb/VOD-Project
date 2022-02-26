@@ -25,9 +25,9 @@ public class DbUtils implements IDbUtils {
         return null;
     }
 
-    public List<Movie> getAllMovies() throws SQLException {
+    public ArrayList<Movie> getAllMovies() throws SQLException {
 
-        List<Movie> movies = new ArrayList<Movie>();
+        ArrayList<Movie> movies = new ArrayList<Movie>();
         String query = "SELECT * FROM movies";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
@@ -44,8 +44,8 @@ public class DbUtils implements IDbUtils {
         return movies;
     }
 
-    public List<Movie> getAvailableMovies() throws SQLException {
-        List<Movie> movies = new ArrayList<Movie>();
+    public ArrayList<Movie> getAvailableMovies() throws SQLException {
+        ArrayList<Movie> movies = new ArrayList<Movie>();
         String query = "SELECT * FROM movies where is_available = true";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
@@ -69,7 +69,10 @@ public class DbUtils implements IDbUtils {
         String query = "INSERT INTO movies (title, category, year, actors, is_available, popularity) " +
                 "VALUES (?,?,?,?,?,?)";
         vodDb.fetch(query, title, category, year, actors, isAvailable, popularity);
+    }
 
+    public void addMovie(Movie movie){
+        //TODO: parse with get methods.
     }
 
 

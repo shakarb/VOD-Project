@@ -1,9 +1,11 @@
 import java.sql.Array;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Admin extends User{
 
-    public void addMovie() {
+    public void addNewMovie() {
         Movie newMovie = Movie.startBuild().
                 movieTitle("title").
                 category("action").
@@ -15,13 +17,25 @@ public class Admin extends User{
         Db.addMovie(newMovie);
     }
 
-    public void removeMovie() {
+    public void addMovieToAvailables(Movie movie){
+        movie.addToAvailables();
+    }
+
+    public void removeMovieFromAvailables(Movie movie) {
+        movie.removeFromAvailables();
     }
 
     public void editMovie() {
-
+        //what can the admin edit here?
     }
-    public void viewStatistics() {
 
+    public void viewStatistics() {
+        try{
+            SortingStrategy s = new sortByPopularity();
+            s.sort(Db.getAllMovies());
+        }
+        catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }

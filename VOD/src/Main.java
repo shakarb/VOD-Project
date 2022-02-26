@@ -17,7 +17,7 @@ public class Main {
             //dbUtils.addMovie("inception", "romance", 2019, actors, true, 5);
 
         } catch(Exception e) {
-
+            String error = e.getMessage();
         }
 
     }

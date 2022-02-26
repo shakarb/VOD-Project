@@ -7,8 +7,8 @@ public class Movie {
     int year;
     String[] actors;
     boolean isAvailable;
-    double popularity;
-
+    double popularity; // orders counter
+    private ArrayList<RegisteredUser> listeningUsers;
     public Movie(String movieTitle, String category, int year, String[] actors,
                  boolean isAvailable,  double inc_popularity) {
         this.title = movieTitle;
@@ -20,6 +20,7 @@ public class Movie {
     }
 
     public Movie(MovieBuilder builder){
+        this.listeningUsers = new ArrayList<>();
         this.title = builder.getTitle();
         this.category = builder.getCategory();
         this.year = builder.getYear();
@@ -40,15 +41,32 @@ public class Movie {
         return this.isAvailable;
     }
 
-    public void setIsAvailable(boolean isAvailable) {
+    private void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
     }
 
     public void addToAvailables() {
-        setIsAvailable(true);
+        if (!isAvailable()){
+            notifyMovieIsAvailable();
+            setIsAvailable(true);
+        }
     }
+
     public void removeFromAvailables() {
         setIsAvailable(false);
     }
 
+    public void subscribe(RegisteredUser user){
+        listeningUsers.add(user);
+    }
+
+    public void unSubscribe(RegisteredUser user){
+        listeningUsers.remove(user);
+    }
+
+    public void notifyMovieIsAvailable(){
+        for (RegisteredUser listeningUser : listeningUsers){
+            listeningUser.update(this.title);
+        }
+    }
 }

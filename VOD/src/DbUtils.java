@@ -22,7 +22,7 @@ public class DbUtils implements IDbUtils {
                 return "successful";
             }
         }
-        return null;
+        return "failed";
     }
 
     public ArrayList<Movie> getAllMovies() throws SQLException {

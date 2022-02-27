@@ -14,7 +14,7 @@ public class Admin extends User{
                 isAvailable(true).
                 popularity(5).
                 build();
-        Db.addMovie(newMovie);
+        this.getDb().addMovie(newMovie);
     }
 
     public void addMovieToAvailables(Movie movie){
@@ -32,7 +32,7 @@ public class Admin extends User{
     public void viewStatistics() {
         try{
             SortingStrategy s = new sortByPopularity();
-            s.sort(Db.getAllMovies());
+            s.sort(getDb().getAllMovies());
         }
         catch (SQLException ex){
             System.out.println(ex.getMessage());

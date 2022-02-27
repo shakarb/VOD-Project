@@ -21,6 +21,8 @@ public class RegisteredUser extends User{
     }
 
     public void orderMovie(Movie movie) {
+        NewOrder order = new NewOrderImplProxy(this);
+        order.makeOrder(this, movie);
 //        LocalDateTime orderTime = LocalDateTime.now();
         //TODO order using proxy
 //        orders.put(movie, orderTime);

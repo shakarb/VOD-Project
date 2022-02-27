@@ -3,11 +3,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User{
-
     private String name;
     private String id;
     private String password;
-    DbUtils Db;
+    private DbUtils Db;
+
+    public String getId() {
+        return id;
+    }
+
+    public DbUtils getDb(){
+        return Db;
+    }
+
+    public String getName() {
+        return name;
+    }
 
 
     public void login(String user, String password) {

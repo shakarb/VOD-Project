@@ -1,5 +1,8 @@
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+
 import java.time.Period;
 import java.time.chrono.ChronoLocalDate;
 import java.time.temporal.ChronoUnit;
@@ -11,37 +14,49 @@ public class Order {
     private String orderId;
     private Movie movie;
     private String userId;
-    private LocalDateTime time;
-    private boolean isActive;
+    private String timeOrderMade;
 
-    public boolean makePay(){
-        //set payment?
-        this.time = LocalDateTime.now();
-        return true;
-    }
-
-    public boolean clearOrder(){ // method meaning? are we talking about new(==like a "cart" in sites) or existing order?
-        return true;
+    public void setUserId(String userId){
+        this.userId = userId;
     }
 
     public void setMovie(Movie movie){
         this.movie = movie;
     }
 
-    public String getTimeLeft(){
-        LocalDateTime now = LocalDateTime.now();
-        long timeFromOrder = ChronoUnit.MINUTES.between(this.time, now);
-        int HOURS_OF_AVAILABILITY = 24;
-        int MINUTES = 60;
-        if (timeFromOrder < HOURS_OF_AVAILABILITY * MINUTES){ //24H count
-            int hoursLeft = (int) (timeFromOrder / MINUTES); //since both are ints, you get an int
-            int minutesLeft = (int) (timeFromOrder % MINUTES);
-            return String.format("Order have %d:%02d left", hoursLeft, minutesLeft);
-        }
-        else {
-            return "Order is no longer available.";
-        }
+    public void setOrderId(String orderId){
+        this.orderId = orderId;
     }
 
+    public void setTimeOrderMade(LocalDateTime time) {
+        this.timeOrderMade = time.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+    }
 
+    public String getTimeLeft(){
+        LocalDateTime now = LocalDateTime.now();
+        String currentTimeAsString = now.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        try {
+            Date startingTime = format.parse(this.timeOrderMade);
+            Date currentTime = format.parse(currentTimeAsString);
+
+            //diff in milliseconds
+            long diff = currentTime.getTime() - startingTime.getTime();
+
+            long diffInMinutes = diff / (60 * 1000) % 60;
+            long diffInHours = diff / (60 * 60 * 1000) % 24;
+
+            if (diffInHours >= 24){
+                System.out.println("This order is no longer available.");
+            }
+            else {
+                System.out.println(diffInHours + " hours and "+ diffInMinutes + " minutes left to this order.");
+            }
+
+            return "";
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }

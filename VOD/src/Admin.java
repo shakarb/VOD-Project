@@ -2,6 +2,7 @@ import java.sql.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Admin extends User{
 
@@ -31,11 +32,37 @@ public class Admin extends User{
 
     public void viewStatistics() {
         try{
+            /*
             SortingStrategy s = new sortByPopularity();
             s.sort(getDb().getAllMovies());
+            */
+            // working with DisplayMovies
+            DisplayMovies Dlm = new DisplayMovies(getDb().getAllMovies(),new sortByPopularity());
+            List<Movie> myList = Dlm.getSortedList();
+            for (Movie m : myList) {
+                System.out.println(m.title + ": " + m.popularity);
+            }
+
+
+
         }
         catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
     }
+    /*
+    public void saveStatistics() {
+        try{
+
+            SortingStrategy s = new sortByPopularity();
+            s.sort(getDb().getAllMovies());
+
+            // working with DisplayMovies
+
+        }
+        catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
+    */
 }

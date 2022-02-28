@@ -1,13 +1,12 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Movie {
-    String title;
-    String category;
-    int year;
-    String[] actors;
-    boolean isAvailable;
-    double popularity; // orders counter
+    private String title;
+    private String category;
+    private int year;
+    private String[] actors;
+    private boolean isAvailable;
+    private double popularity; // orders counter
     private ArrayList<RegisteredUser> listeningUsers;
     public Movie(String movieTitle, String category, int year, String[] actors,
                  boolean isAvailable,  double inc_popularity) {
@@ -36,6 +35,19 @@ public class Movie {
     public String getTitle() {
         return this.title;
     }
+    public double getPopularity() {
+        return this.popularity;
+    }
+    public String getCategory() {
+        return this.category;
+    }
+    public int getYear() {
+        return this.year;
+    }
+    public String[] getActors() {
+        return this.actors;
+    }
+
 
     public boolean isAvailable() {
         return this.isAvailable;

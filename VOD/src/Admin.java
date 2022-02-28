@@ -1,7 +1,4 @@
-import java.sql.Array;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Admin extends User{
@@ -43,7 +40,7 @@ public class Admin extends User{
             DisplayMovies Dlm = new DisplayMovies(getDb().getAllMovies(),new sortByPopularity());
             List<Movie> myList = Dlm.getSortedList();
             for (Movie m : myList) {
-                System.out.println(m.title + ": " + m.popularity);
+                System.out.println(m.getTitle() + ": " + m.getPopularity());
             }
             GeneralReport.displayResults();
         }

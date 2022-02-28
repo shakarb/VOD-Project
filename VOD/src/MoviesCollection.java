@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
-    ArrayList<Movie> movies;
+    private ArrayList<Movie> movies;
 
     public MoviesCollection() {
         this.movies = new ArrayList<Movie>();;
@@ -14,6 +14,10 @@ public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
 
     public void removeMovie(Movie movie) {
         movies.remove(movie);
+    }
+
+    public ArrayList<Movie> getMovies() {
+        return movies;
     }
 
     public Iterator<Movie> getIterator() {

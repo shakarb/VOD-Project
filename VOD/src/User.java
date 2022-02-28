@@ -22,6 +22,7 @@ public class User{
 
 
     public void login(String user, String password) {
+        GeneralReport.visit(this,1);
 
     }
 

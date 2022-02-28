@@ -19,10 +19,13 @@ public class Admin extends User{
     }
 
     public void addMovieToAvailables(Movie movie){
+        GeneralReport.visit(movie,1);
         movie.addToAvailables();
+
     }
 
     public void removeMovieFromAvailables(Movie movie) {
+        GeneralReport.visit(movie,-1);
         movie.removeFromAvailables();
     }
 
@@ -42,9 +45,7 @@ public class Admin extends User{
             for (Movie m : myList) {
                 System.out.println(m.title + ": " + m.popularity);
             }
-
-
-
+            GeneralReport.displayResults();
         }
         catch (SQLException ex){
             System.out.println(ex.getMessage());

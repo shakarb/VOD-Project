@@ -25,9 +25,8 @@ public class DbUtils implements IDbUtils {
         return "failed";
     }
 
-    public ArrayList<Movie> getAllMovies() throws SQLException {
-
-        ArrayList<Movie> movies = new ArrayList<Movie>();
+    public IMoviesCollection getAllMovies() throws SQLException {
+        IMoviesCollection moviesCollection = new MoviesCollection();
         String query = "SELECT * FROM movies";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
@@ -38,14 +37,28 @@ public class DbUtils implements IDbUtils {
             String[] actors = (String[]) actorsArr.getArray();
             boolean isAvailable = result.getBoolean("is_available");
             double popularity = result.getDouble("popularity");
-            Movie movie = new Movie(movieTitle, category, year, actors, isAvailable, popularity);
-            movies.add(movie);
+            double runningTime = result.getDouble("running_time");
+            int price = result.getInt("price");
+
+            // build movie
+            Movie newMovie = Movie.startBuild().
+                    movieTitle(movieTitle).
+                    category(category).
+                    year(year).
+                    actors(actors).
+                    isAvailable(isAvailable).
+                    popularity(popularity).
+                    runningTime(runningTime).
+                    price(price).
+                    build();
+
+            moviesCollection.addMovie(newMovie);
         }
-        return movies;
+        return moviesCollection;
     }
 
-    public ArrayList<Movie> getAvailableMovies() throws SQLException {
-        ArrayList<Movie> movies = new ArrayList<Movie>();
+    public IMoviesCollection getAvailableMovies() throws SQLException {
+        IMoviesCollection moviesCollection = new MoviesCollection();
         String query = "SELECT * FROM movies where is_available = true";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
@@ -56,10 +69,24 @@ public class DbUtils implements IDbUtils {
             String[] actors = (String[]) actorsArr.getArray();
             boolean isAvailable = result.getBoolean("is_available");
             double popularity = result.getDouble("popularity");
-            Movie movie = new Movie(movieTitle, category, year, actors, isAvailable, popularity);
-            movies.add(movie);
+            double runningTime = result.getDouble("running_time");
+            int price = result.getInt("price");
+
+            // build movie
+            Movie newMovie = Movie.startBuild().
+                    movieTitle(movieTitle).
+                    category(category).
+                    year(year).
+                    actors(actors).
+                    isAvailable(isAvailable).
+                    popularity(popularity).
+                    runningTime(runningTime).
+                    price(price).
+                    build();
+
+            moviesCollection.addMovie(newMovie);
         }
-        return movies;
+        return moviesCollection;
     }
 
     public void addMovie(String title, String category, int year, String[] actors,

@@ -4,6 +4,7 @@ import java.util.List;
 public class Admin extends User{
 
     public void addNewMovie() {
+        /*
         Movie newMovie = Movie.startBuild().
                 movieTitle("title").
                 category("action").
@@ -11,6 +12,16 @@ public class Admin extends User{
                 actors(new String[]{"first actor", "second actor", "third actor"}).
                 isAvailable(true).
                 popularity(5).
+                build();*/
+        Movie newMovie = Movie.startBuild().
+                movieTitle("title").
+                category("action").
+                year(2022).
+                actors(new String[]{"first actor", "second actor", "third actor"}).
+                isAvailable(true).
+                popularity(5).
+                runningTime(125).
+                price(25).
                 build();
         this.getDb().addMovie(newMovie);
     }
@@ -37,7 +48,7 @@ public class Admin extends User{
             s.sort(getDb().getAllMovies());
             */
             // working with DisplayMovies
-            DisplayMovies Dlm = new DisplayMovies(getDb().getAllMovies(),new sortByPopularity());
+            DisplayMovies Dlm = new DisplayMovies(getDb().getAllMovies().getMovies(),new sortByPopularity());
             List<Movie> myList = Dlm.getSortedList();
             for (Movie m : myList) {
                 System.out.println(m.getTitle() + ": " + m.getPopularity());

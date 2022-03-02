@@ -34,7 +34,7 @@ public class User{
         SortingStrategy s = new sortByName(); //lexicographic order as default view.
         if (this instanceof RegisteredUser){
             try{
-                ArrayList<Movie> movies = Db.getAvailableMovies();
+                ArrayList<Movie> movies = Db.getAvailableMovies().getMovies();
                 s.sort(movies);
             }
             catch (SQLException ex){
@@ -42,7 +42,7 @@ public class User{
             }
         } else if (this instanceof Admin){
             try{
-                ArrayList<Movie> movies = Db.getAllMovies();
+                ArrayList<Movie> movies = Db.getAllMovies().getMovies();
                 s.sort(movies);
             }
             catch (SQLException ex){

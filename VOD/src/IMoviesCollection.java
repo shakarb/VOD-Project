@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public interface IMoviesCollection {
@@ -6,4 +7,6 @@ public interface IMoviesCollection {
     public void removeMovie(Movie movie);
 
     public Iterator<Movie> getIterator();
+
+    public ArrayList<Movie> getMovies();
 }

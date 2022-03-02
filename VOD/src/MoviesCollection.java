@@ -33,9 +33,10 @@ public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
             movie = it.next();
             if (movie.getTitle().equals(movieName)) {
                 moviesResults.add(movie);
+                return moviesResults;
             }
         }
-        return moviesResults;
+        return null;
     }
 
     public ArrayList<Movie> searchMovieByCategory(String category) {

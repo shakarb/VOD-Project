@@ -1,3 +1,3 @@
 public interface MoviePopularity {
-    public BuildMovie popularity(double popularity);
+    public MovieRunningTime popularity(double popularity);
 }

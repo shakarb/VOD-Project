@@ -6,4 +6,6 @@ public interface BuildMovie {
     public String[] getActors();
     public boolean getIsAvailable();
     public double getPopularity();
+    public double getRunningTime();
+    public int getPrice();
 }

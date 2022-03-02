@@ -8,14 +8,19 @@ public class Movie {
     private boolean isAvailable;
     private double popularity; // orders counter
     private ArrayList<RegisteredUser> listeningUsers;
+    private double runningTime;
+    private int price;
+
     public Movie(String movieTitle, String category, int year, String[] actors,
-                 boolean isAvailable,  double inc_popularity) {
+                 boolean isAvailable,  double inc_popularity, double runningTime, int price) {
         this.title = movieTitle;
         this.category = category;
         this.year = year;
         this.actors = actors;
         this.isAvailable = isAvailable;
         this.popularity = inc_popularity;
+        this.runningTime = runningTime;
+        this.price = price;
     }
 
     public Movie(MovieBuilder builder){
@@ -26,6 +31,8 @@ public class Movie {
         this.actors = builder.getActors();
         this.isAvailable = builder.getIsAvailable();
         this.popularity = builder.getPopularity();
+        this.runningTime = builder.runningTime;
+        this.price = builder.price;
     }
 
     public static MovieTitle startBuild(){
@@ -48,6 +55,13 @@ public class Movie {
         return this.actors;
     }
 
+    public double getRunningTime() {
+        return this.runningTime;
+    }
+
+    public int getPrice() {
+        return this.price;
+    }
 
     public boolean isAvailable() {
         return this.isAvailable;

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Movie {
     private String title;
-    private String category;
+    private String[] category;
     private int year;
     private String[] actors;
     private boolean isAvailable;
@@ -11,7 +11,7 @@ public class Movie {
     private double runningTime;
     private int price;
 
-    public Movie(String movieTitle, String category, int year, String[] actors,
+    public Movie(String movieTitle, String[] category, int year, String[] actors,
                  boolean isAvailable,  double inc_popularity, double runningTime, int price) {
         this.title = movieTitle;
         this.category = category;
@@ -45,7 +45,7 @@ public class Movie {
     public double getPopularity() {
         return this.popularity;
     }
-    public String getCategory() {
+    public String[] getCategory() {
         return this.category;
     }
     public int getYear() {

@@ -1,7 +1,7 @@
 public class MovieBuilder implements MovieTitle, MovieCategory, MovieYear, MovieActors,
         MovieAvailability, MoviePopularity, MovieRunningTime, MoviePrice, BuildMovie{
     private String title;
-    private String category;
+    private String[] category;
     private int year;
     private String[] actors;
     private boolean isAvailable;
@@ -19,7 +19,7 @@ public class MovieBuilder implements MovieTitle, MovieCategory, MovieYear, Movie
     }
 
     @Override
-    public String getCategory() {
+    public String[] getCategory() {
         return this.category;
     }
 
@@ -54,7 +54,7 @@ public class MovieBuilder implements MovieTitle, MovieCategory, MovieYear, Movie
     }
 
     @Override
-    public MovieYear category(String category) {
+    public MovieYear category(String[] category) {
         this.category = category;
         return this;
     }

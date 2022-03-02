@@ -31,7 +31,8 @@ public class DbUtils implements IDbUtils {
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
             String movieTitle = result.getString("title");
-            String category = result.getString("category");
+            Array categoriesArr = result.getArray("category");
+            String[] category = (String[]) categoriesArr.getArray();
             int year = result.getInt("year");
             Array actorsArr = result.getArray("actors");
             String[] actors = (String[]) actorsArr.getArray();
@@ -63,7 +64,8 @@ public class DbUtils implements IDbUtils {
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
             String movieTitle = result.getString("title");
-            String category = result.getString("category");
+            Array categoriesArr = result.getArray("category");
+            String[] category = (String[]) categoriesArr.getArray();
             int year = result.getInt("year");
             Array actorsArr = result.getArray("actors");
             String[] actors = (String[]) actorsArr.getArray();

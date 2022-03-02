@@ -1,3 +1,3 @@
 public interface MovieCategory {
-    public MovieYear category(String category);
+    public MovieYear category(String[] category);
 }

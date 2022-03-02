@@ -15,7 +15,7 @@ public class Admin extends User{
                 build();*/
         Movie newMovie = Movie.startBuild().
                 movieTitle("title").
-                category("action").
+                category(new String[]{"first category", "second category"}).
                 year(2022).
                 actors(new String[]{"first actor", "second actor", "third actor"}).
                 isAvailable(true).

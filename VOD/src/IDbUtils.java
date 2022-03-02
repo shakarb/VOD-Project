@@ -6,6 +6,8 @@ public interface IDbUtils {
     String login(int userid, String password) throws SQLException;
     IMoviesCollection getAllMovies() throws SQLException;
     IMoviesCollection getAvailableMovies() throws SQLException;
-    void addMovie(String title, String category, int year, String[] actors,
-                  boolean isAvailable, double popularity) throws SQLException;
+    void addMovie(Movie movie) throws SQLException;
+    IOrdersCollection getAllOrders() throws SQLException;
+    IOrdersCollection getUserOrders(String userId) throws SQLException;
+    void addOrder(Order order) throws SQLException;
 }

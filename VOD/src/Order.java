@@ -11,10 +11,26 @@ import java.util.Date;
 public class Order {
 
     // fields
-    private String orderId;
-    private Movie movie;
     private String userId;
+    private Movie movie;
+    private int totalPayment;
     private String timeOrderMade;
+
+    public Movie getMovie() {
+        return this.movie;
+    }
+
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public String getTimeOrderMade() {
+        return this.timeOrderMade;
+    }
+
+    public int getTotalPayment() {
+        return this.totalPayment;
+    }
 
     public void setUserId(String userId){
         this.userId = userId;
@@ -22,10 +38,6 @@ public class Order {
 
     public void setMovie(Movie movie){
         this.movie = movie;
-    }
-
-    public void setOrderId(String orderId){
-        this.orderId = orderId;
     }
 
     public void setTimeOrderMade(LocalDateTime time) {

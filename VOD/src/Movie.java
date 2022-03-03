@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Movie {
     private String title;
@@ -94,5 +95,11 @@ public class Movie {
         for (RegisteredUser listeningUser : listeningUsers){
             listeningUser.update(this.title);
         }
+    }
+
+    public void printMovieDetails() {
+        System.out.format("Movie: %s%nGenre: %s%nYear: %s%nActors: %s%nPopularity: %s%n" +
+                        "Running Time: %s%nPrice: %s%n%n" ,
+                title, Arrays.toString(category), year, Arrays.toString(actors), popularity, runningTime, price);
     }
 }

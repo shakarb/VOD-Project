@@ -1,6 +1,7 @@
 import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DbUtils implements IDbUtils {
     PostgreSqlDB vodDb;
@@ -9,21 +10,48 @@ public class DbUtils implements IDbUtils {
         this.vodDb = PostgreSqlDB.getVodInstance();
     }
 
-    public String login(int user_id, String password) throws SQLException {
+    public User login(String userId, String password) throws SQLException {
         String query = "SELECT * FROM accounts where user_id = ?";
-        ResultSet result = vodDb.fetch(query, user_id);
+        ResultSet result = vodDb.fetch(query, userId);
 
         while(result.next()) {
             String retrievedPassword = result.getString("password");
+            boolean isAdmin = result.getBoolean("is_admin");
             if (retrievedPassword.equals(password)) {
-                return "successful";
+                if (isAdmin) {
+                    return new Admin();
+                } else {
+                    User registeredUser = getUserDetails(userId);
+                    return registeredUser;
+                }
             }
         }
-        return "failed";
+        return null;
     }
 
-    public IMoviesCollection getAllMovies() throws SQLException {
-        IMoviesCollection moviesCollection = new MoviesCollection();
+    public void register(String userId, String password, String name,String email,
+                           String phoneNumber, String[] favoritesMovies) throws SQLException {
+
+        String query = "INSERT INTO accounts VALUES (?,?)";
+        vodDb.fetch(query, userId, password);
+
+        query = "INSERT INTO user_details VALUES (?,?,?,?,?)";
+        vodDb.fetch(query, userId, name, email, phoneNumber, favoritesMovies);
+    }
+
+    public RegisteredUser getUserDetails(String userId) throws SQLException {
+        String query = "SELECT * FROM user_details where user_id = ?";
+        ResultSet result = vodDb.fetch(query, userId);
+        result.next();
+        String email = result.getString("email");
+        String phoneNumber = result.getString("phone_number");
+        Array favoritesArr = result.getArray("favorites_movies");
+        String[] favoritesMovies = (String[]) favoritesArr.getArray();
+        return new RegisteredUser(email, phoneNumber, favoritesMovies);
+    }
+
+    public ArrayList<Movie> getAllMovies() throws SQLException {
+        ArrayList<Movie> moviesList = new ArrayList<Movie>();
         String query = "SELECT * FROM movies";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
@@ -50,13 +78,13 @@ public class DbUtils implements IDbUtils {
                     price(price).
                     build();
 
-            moviesCollection.addMovie(newMovie);
+            moviesList.add(newMovie);
         }
-        return moviesCollection;
+        return moviesList;
     }
 
-    public IMoviesCollection getAvailableMovies() throws SQLException {
-        IMoviesCollection moviesCollection = new MoviesCollection();
+    public ArrayList<Movie> getAvailableMovies() throws SQLException {
+        ArrayList<Movie> moviesList = new ArrayList<Movie>();
         String query = "SELECT * FROM movies where is_available = true";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
@@ -83,9 +111,9 @@ public class DbUtils implements IDbUtils {
                     price(price).
                     build();
 
-            moviesCollection.addMovie(newMovie);
+            moviesList.add(newMovie);
         }
-        return moviesCollection;
+        return moviesList;
     }
 
     public void addMovie(Movie movie) throws SQLException {
@@ -136,8 +164,8 @@ public class DbUtils implements IDbUtils {
                     build();
 
 
-            Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
-            ordersCollection.addOrder(newOrder);
+            //Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
+            //ordersCollection.addOrder(newOrder);
         }
         return ordersCollection;
     }
@@ -174,9 +202,10 @@ public class DbUtils implements IDbUtils {
                     price(price).
                     build();
 
-            Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
-            ordersCollection.addOrder(newOrder);
+            //Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
+            //ordersCollection.addOrder(newOrder);
         }
+        return ordersCollection;
     }
 
     public void addOrder(Order order) throws SQLException {

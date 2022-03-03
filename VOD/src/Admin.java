@@ -48,7 +48,7 @@ public class Admin extends User{
             s.sort(getDb().getAllMovies());
             */
             // working with DisplayMovies
-            DisplayMovies Dlm = new DisplayMovies(getDb().getAllMovies().getMovies(),new sortByPopularity());
+            DisplayMovies Dlm = new DisplayMovies(getMoviesCollection().getAllMovies(),new sortByPopularity());
             List<Movie> myList = Dlm.getSortedList();
             for (Movie m : myList) {
                 System.out.println(m.getTitle() + ": " + m.getPopularity());

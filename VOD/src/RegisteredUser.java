@@ -9,9 +9,13 @@ public class RegisteredUser extends User{
     private String email;
     private String phoneNumber;
     private List<Movie> orderedList = new ArrayList<>();
-    private List<Movie> favorites = new ArrayList<>();
+    private String[] favorites;
 
-
+    public RegisteredUser(String email, String phoneNumber, String[] favorites) {
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.favorites = favorites;
+    }
     public void addMovieToFavorites(Movie movie) {
         movie.subscribe(this);
     }

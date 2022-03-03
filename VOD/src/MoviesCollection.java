@@ -1,49 +1,66 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
-    private ArrayList<Movie> movies;
+    private IDbUtils db;
+    ArrayList<Movie> movies = new ArrayList<Movie>();
+    ArrayList<Movie> availableMovies = new ArrayList<Movie>();
 
     public MoviesCollection() {
-        this.movies = new ArrayList<Movie>();
+        this.db = new DbUtils();
     }
 
-    public void addMovie(Movie movie) {
-        movies.add(movie);
+    public void addMovie(Movie movie) throws SQLException{
+        db.addMovie(movie);
     }
 
-    public void removeMovie(Movie movie) {
-        movies.remove(movie);
-    }
-
-    public ArrayList<Movie> getMovies() {
+    public ArrayList<Movie> getAllMovies() throws SQLException {
+        movies = db.getAllMovies();
         return movies;
     }
 
-    public Iterator<Movie> getIterator() {
+    public ArrayList<Movie> getAvailableMovies() throws SQLException {
+        availableMovies = db.getAvailableMovies();
+        return availableMovies;
+    }
+
+    public Iterator<Movie> getIteratorAllMovies() throws SQLException {
+        if (movies.isEmpty()) {
+            getAllMovies();
+        }
         Iterator<Movie> it = movies.iterator();
         return it;
     }
 
-    public ArrayList<Movie> searchMovieByName(String movieName) {
+    public Iterator<Movie> getIteratorAvailableMovies() throws SQLException{
+        if (availableMovies.isEmpty()) {
+            getAvailableMovies();
+        }
+        Iterator<Movie> it = availableMovies.iterator();
+        return it;
+    }
+
+    public ArrayList<Movie> searchMovieByName(String movieName) throws SQLException {
         ArrayList<Movie> moviesResults = new ArrayList<Movie>();;
-        Iterator<Movie> it = getIterator();
+        getAvailableMovies();
+        Iterator<Movie> it = getIteratorAvailableMovies();
         Movie movie;
         while (it.hasNext()) {
             movie = it.next();
             if (movie.getTitle().equals(movieName)) {
                 moviesResults.add(movie);
-                return moviesResults;
+                break;
             }
         }
-        return null;
+        return moviesResults;
     }
 
-    public ArrayList<Movie> searchMovieByCategory(String catgegory) {
+    public ArrayList<Movie> searchMovieByCategory(String catgegory) throws SQLException {
         ArrayList<Movie> moviesResults = new ArrayList<Movie>();;
-        Iterator<Movie> it = getIterator();
+        Iterator<Movie> it = getIteratorAvailableMovies();
         Movie movie;
         while (it.hasNext()) {
             movie = it.next();
@@ -55,9 +72,9 @@ public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
         return moviesResults;
     }
 
-    public ArrayList<Movie> searchMovieByPopularity(double popularity) {
+    public ArrayList<Movie> searchMovieByPopularity(double popularity) throws SQLException {
         ArrayList<Movie> moviesResults = new ArrayList<Movie>();;
-        Iterator<Movie> it = getIterator();
+        Iterator<Movie> it = getIteratorAvailableMovies();
         Movie movie;
         while (it.hasNext()) {
             movie = it.next();

@@ -7,6 +7,7 @@ public class User{
     private String id;
     private String password;
     private DbUtils Db;
+    private IMoviesCollection moviesCollection;
 
     public String getId() {
         return id;
@@ -18,6 +19,10 @@ public class User{
 
     public String getName() {
         return name;
+    }
+
+    public IMoviesCollection getMoviesCollection() {
+        return moviesCollection;
     }
 
 
@@ -34,7 +39,7 @@ public class User{
         SortingStrategy s = new sortByName(); //lexicographic order as default view.
         if (this instanceof RegisteredUser){
             try{
-                ArrayList<Movie> movies = Db.getAvailableMovies().getMovies();
+                ArrayList<Movie> movies = moviesCollection.getAvailableMovies();
                 s.sort(movies);
             }
             catch (SQLException ex){
@@ -42,7 +47,7 @@ public class User{
             }
         } else if (this instanceof Admin){
             try{
-                ArrayList<Movie> movies = Db.getAllMovies().getMovies();
+                ArrayList<Movie> movies = moviesCollection.getAllMovies();
                 s.sort(movies);
             }
             catch (SQLException ex){

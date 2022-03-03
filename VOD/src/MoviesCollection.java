@@ -1,11 +1,13 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
     private ArrayList<Movie> movies;
 
     public MoviesCollection() {
-        this.movies = new ArrayList<Movie>();;
+        this.movies = new ArrayList<Movie>();
     }
 
     public void addMovie(Movie movie) {
@@ -39,13 +41,14 @@ public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
         return null;
     }
 
-    public ArrayList<Movie> searchMovieByCategory(String category) {
+    public ArrayList<Movie> searchMovieByCategory(String catgegory) {
         ArrayList<Movie> moviesResults = new ArrayList<Movie>();;
         Iterator<Movie> it = getIterator();
         Movie movie;
         while (it.hasNext()) {
             movie = it.next();
-            if (movie.getCategory().equals(category)) {
+            List categoriesList = Arrays.asList(movie.getCategory());
+            if (categoriesList.contains(catgegory)) {
                 moviesResults.add(movie);
             }
         }

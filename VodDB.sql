@@ -5,31 +5,7 @@
 -- Dumped from database version 14.2
 -- Dumped by pg_dump version 14.2
 
--- Started on 2022-03-02 22:46:25
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
-DROP DATABASE "VodDB";
---
--- TOC entry 3334 (class 1262 OID 16394)
--- Name: VodDB; Type: DATABASE; Schema: -; Owner: postgres
---
-
-CREATE DATABASE "VodDB" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE = 'English_United States.1252';
-
-
-ALTER DATABASE "VodDB" OWNER TO postgres;
-
-\connect "VodDB"
+-- Started on 2022-03-04 01:54:07
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -53,7 +29,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.accounts (
     user_id text NOT NULL,
-    password text
+    password text,
+    is_admin boolean DEFAULT false
 );
 
 
@@ -137,7 +114,7 @@ CREATE TABLE public.user_details (
 ALTER TABLE public.user_details OWNER TO postgres;
 
 --
--- TOC entry 3176 (class 2604 OID 16475)
+-- TOC entry 3177 (class 2604 OID 16475)
 -- Name: orders order_id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -145,48 +122,59 @@ ALTER TABLE ONLY public.orders ALTER COLUMN order_id SET DEFAULT nextval('public
 
 
 --
--- TOC entry 3324 (class 0 OID 16396)
+-- TOC entry 3325 (class 0 OID 16396)
 -- Dependencies: 209
 -- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.accounts (user_id, password) VALUES ('admin', 'root');
-INSERT INTO public.accounts (user_id, password) VALUES ('user1', '123456');
+COPY public.accounts (user_id, password, is_admin) FROM stdin;
+user	123456	f
+user1	123456	f
+user2	123456	f
+\.
 
 
 --
--- TOC entry 3325 (class 0 OID 16415)
+-- TOC entry 3326 (class 0 OID 16415)
 -- Dependencies: 210
 -- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('Titanic', '{Drama,Romance}', 1997, '{"''Leonardo DiCaprio''","''Kate Winslet''","''Billy Zane''","''Kathy Bates''","''Gloria Stuart''"}', true, 0, 194, 25, '{}');
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('The Sixth Sense', '{Drama,Mystery,Thriller}', 1999, '{"''Bruce Willis''","''Haley Joel Osment''","''Toni Collette''"}', true, 0, 107, 25, '{}');
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('The Others', '{Horror,Mystery,Thriller}', 2001, '{"''Nicole Kidman''","''Christopher Eccleston''","''Alakina Mann''","''Fionnula Flanagan''","''James Bentley''","''Eric Sykes''"}', true, 0, 60, 25, '{}');
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('The Invisible Guest', '{Crime,Drama,Mystery}', 2016, '{"''Mario Casas''","''Ana Wagener''","''Jose Coronado''","''Barbara Lennie''"}', true, 0, 106, 25, '{}');
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('Spiderman No Way Home', '{Action,Adventure,Fantasy}', 2019, '{"''Tom Holland''",''Zendaya'',"''Benedict Cumberbatch''"}', true, 0, 148, 25, '{}');
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('Joker', '{Crime,Drama,Thriller}', 2019, '{"''Joaquin Phoenix''","''Robert De Niro''","''Zazie Beetz''"}', true, 0, 122, 25, '{}');
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('We''re the Millers', '{Comedy}', 2013, '{"''Jennifer Aniston''","''Jason Sudeikis''","''Ed Helms''","''Emma Roberts''","''Will Poulter''"}', false, 0, 110, 25, '{}');
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('Me Before You', '{Drama,Romance}', 2016, '{"''Emilia Clarke''","''Sam Claflin''","''Janet McTeer''","''Charles Dance''","''Brendan Coyle''"}', false, 0, 106, 25, '{}');
-INSERT INTO public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) VALUES ('Hitch', '{Comedy,Romance}', 2005, '{"''Eva Mendes''","''Will Smith''","''Amber Valletta''","''Kevin James''"}', false, 0, 118, 25, '{}');
+COPY public.movies (title, category, year, actors, is_available, popularity, running_time, price, listening_users) FROM stdin;
+Titanic	{Drama,Romance}	1997	{"'Leonardo DiCaprio'","'Kate Winslet'","'Billy Zane'","'Kathy Bates'","'Gloria Stuart'"}	t	0	194	25	{}
+The Sixth Sense	{Drama,Mystery,Thriller}	1999	{"'Bruce Willis'","'Haley Joel Osment'","'Toni Collette'"}	t	0	107	25	{}
+The Others	{Horror,Mystery,Thriller}	2001	{"'Nicole Kidman'","'Christopher Eccleston'","'Alakina Mann'","'Fionnula Flanagan'","'James Bentley'","'Eric Sykes'"}	t	0	60	25	{}
+The Invisible Guest	{Crime,Drama,Mystery}	2016	{"'Mario Casas'","'Ana Wagener'","'Jose Coronado'","'Barbara Lennie'"}	t	0	106	25	{}
+Spiderman No Way Home	{Action,Adventure,Fantasy}	2019	{"'Tom Holland'",'Zendaya',"'Benedict Cumberbatch'"}	t	0	148	25	{}
+Joker	{Crime,Drama,Thriller}	2019	{"'Joaquin Phoenix'","'Robert De Niro'","'Zazie Beetz'"}	t	0	122	25	{}
+We're the Millers	{Comedy}	2013	{"'Jennifer Aniston'","'Jason Sudeikis'","'Ed Helms'","'Emma Roberts'","'Will Poulter'"}	f	0	110	25	{}
+Me Before You	{Drama,Romance}	2016	{"'Emilia Clarke'","'Sam Claflin'","'Janet McTeer'","'Charles Dance'","'Brendan Coyle'"}	f	0	106	25	{}
+Hitch	{Comedy,Romance}	2005	{"'Eva Mendes'","'Will Smith'","'Amber Valletta'","'Kevin James'"}	f	0	118	25	{}
+\.
 
 
 --
--- TOC entry 3327 (class 0 OID 16472)
+-- TOC entry 3328 (class 0 OID 16472)
 -- Dependencies: 212
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.orders (order_id, user_id, movie_name, total_payment, time_order_made) VALUES (3, 'user1', 'Titanic', 25, '02.03.2022 18:50');
+COPY public.orders (order_id, user_id, movie_name, total_payment, time_order_made) FROM stdin;
+3	user1	Titanic	25	02.03.2022 18:50
+\.
 
 
 --
--- TOC entry 3328 (class 0 OID 16484)
+-- TOC entry 3329 (class 0 OID 16484)
 -- Dependencies: 213
 -- Data for Name: user_details; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.user_details (user_id, name, email, phone_number, favorites_movies) VALUES ('user1', 'Shaked', 'shaked@gmail.com', '0544285182', '{}');
+COPY public.user_details (user_id, name, email, phone_number, favorites_movies) FROM stdin;
+user	Shaked	Shaked@gmail.com	0544285182	{}
+user1	Shaked	Shaked@gmail.com	0544285182	{}
+user2	Shaked	Shaked@gmail.com	0544285182	{}
+\.
 
 
 --
@@ -199,7 +187,7 @@ SELECT pg_catalog.setval('public.orders_order_id_seq', 3, true);
 
 
 --
--- TOC entry 3178 (class 2606 OID 16492)
+-- TOC entry 3179 (class 2606 OID 16492)
 -- Name: accounts Accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -208,7 +196,7 @@ ALTER TABLE ONLY public.accounts
 
 
 --
--- TOC entry 3180 (class 2606 OID 16421)
+-- TOC entry 3181 (class 2606 OID 16421)
 -- Name: movies movies_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -217,7 +205,7 @@ ALTER TABLE ONLY public.movies
 
 
 --
--- TOC entry 3182 (class 2606 OID 16479)
+-- TOC entry 3183 (class 2606 OID 16479)
 -- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -226,7 +214,7 @@ ALTER TABLE ONLY public.orders
 
 
 --
--- TOC entry 3184 (class 2606 OID 16490)
+-- TOC entry 3185 (class 2606 OID 16490)
 -- Name: user_details user_details_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -234,7 +222,7 @@ ALTER TABLE ONLY public.user_details
     ADD CONSTRAINT user_details_pkey PRIMARY KEY (user_id);
 
 
--- Completed on 2022-03-02 22:46:25
+-- Completed on 2022-03-04 01:54:07
 
 --
 -- PostgreSQL database dump complete

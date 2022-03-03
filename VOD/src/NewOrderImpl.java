@@ -8,7 +8,6 @@ public class NewOrderImpl implements NewOrder{
         order.setUserId(user.getId());
         order.setMovie(movie);
         order.setTimeOrderMade(LocalDateTime.now());
-        order.setOrderId("some unique order id");
         GeneralReport.visit(order,1);
         return order;
     }

@@ -10,7 +10,7 @@ public interface IDbUtils {
     ArrayList<Movie> getAllMovies() throws SQLException;
     ArrayList<Movie> getAvailableMovies() throws SQLException;
     void addMovie(Movie movie) throws SQLException;
-    IOrdersCollection getAllOrders() throws SQLException;
-    IOrdersCollection getUserOrders(String userId) throws SQLException;
+    ArrayList<Order> getAllOrders() throws SQLException;
+    ArrayList<Order> getUserOrders(String userId) throws SQLException;
     void addOrder(Order order) throws SQLException;
 }

@@ -1,12 +1,14 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public interface IOrdersCollection {
-    public void addOrder(Order order);
+    public void addOrder(Order order) throws SQLException;
 
-    public void removeOrder(Order order);
+    public ArrayList<Order> getOrders() throws SQLException;
+
+    public ArrayList<Order> getUserOrders(String userId) throws SQLException;
 
     public Iterator<Order> getIterator();
 
-    public ArrayList<Order> getOrders();
 }

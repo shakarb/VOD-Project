@@ -131,8 +131,8 @@ public class DbUtils implements IDbUtils {
         vodDb.fetch(query, title, category, year, actors, isAvailable, popularity);
     }
 
-    public IOrdersCollection getAllOrders() throws SQLException {
-        IOrdersCollection ordersCollection = new OrdersCollection();
+    public ArrayList<Order> getAllOrders() throws SQLException {
+        ArrayList<Order> ordersList = new ArrayList<Order>();
         String query = "SELECT * FROM orders";
         ResultSet result = vodDb.fetch(query);
         while(result.next()) {
@@ -164,14 +164,14 @@ public class DbUtils implements IDbUtils {
                     build();
 
 
-            //Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
-            //ordersCollection.addOrder(newOrder);
+            Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
+            ordersList.add(newOrder);
         }
-        return ordersCollection;
+        return ordersList;
     }
 
-    public IOrdersCollection getUserOrders(String userId) throws SQLException {
-        IOrdersCollection ordersCollection = new OrdersCollection();
+    public ArrayList<Order> getUserOrders(String userId) throws SQLException {
+        ArrayList<Order> ordersList = new ArrayList<Order>();
         String query = "SELECT * FROM orders INNER JOIN movies ON orders.movie_name = movies.title" +
                 "where orders.user_id = ?";
         ResultSet result = vodDb.fetch(query, userId);
@@ -202,10 +202,11 @@ public class DbUtils implements IDbUtils {
                     price(price).
                     build();
 
-            //Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
-            //ordersCollection.addOrder(newOrder);
+
+            Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
+            ordersList.add(newOrder);
         }
-        return ordersCollection;
+        return ordersList;
     }
 
     public void addOrder(Order order) throws SQLException {

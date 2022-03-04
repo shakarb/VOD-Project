@@ -18,6 +18,10 @@ public class DbUtils implements IDbUtils {
             String retrievedPassword = result.getString("password");
             boolean isAdmin = result.getBoolean("is_admin");
             if (retrievedPassword.equals(password)) {
+                // mark user as active
+                query = "UPDATE public.accounts SET is_active=? where user_id = ?";
+                vodDb.fetch(query, true, userId);
+
                 if (isAdmin) {
                     return new Admin();
                 } else {
@@ -27,6 +31,12 @@ public class DbUtils implements IDbUtils {
             }
         }
         return null;
+    }
+
+    public void logout(User user) throws SQLException {
+        String userId = user.getId();
+        String query = "UPDATE accounts SET is_active = ? where user_id = ?";
+        vodDb.fetch(query, false, userId);
     }
 
     public void register(String userId, String password, String name,String email,
@@ -164,8 +174,8 @@ public class DbUtils implements IDbUtils {
                     build();
 
 
-            Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
-            ordersList.add(newOrder);
+            //Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
+            //ordersList.add(newOrder);
         }
         return ordersList;
     }
@@ -203,8 +213,8 @@ public class DbUtils implements IDbUtils {
                     build();
 
 
-            Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
-            ordersList.add(newOrder);
+            //Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
+            //ordersList.add(newOrder);
         }
         return ordersList;
     }

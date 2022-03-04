@@ -5,6 +5,7 @@ import java.util.List;
 
 public interface IDbUtils {
     User login(String userid, String password) throws SQLException;
+    void logout(User user) throws SQLException;
     void register(String userId, String password, String name, String email,
                                    String phoneNumber, String[] favoritesMovies) throws SQLException;
     ArrayList<Movie> getAllMovies() throws SQLException;

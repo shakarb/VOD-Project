@@ -5,7 +5,7 @@
 -- Dumped from database version 14.2
 -- Dumped by pg_dump version 14.2
 
--- Started on 2022-03-04 01:54:07
+-- Started on 2022-03-04 10:52:39
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,7 +30,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.accounts (
     user_id text NOT NULL,
     password text,
-    is_admin boolean DEFAULT false
+    is_admin boolean DEFAULT false,
+    is_active boolean
 );
 
 
@@ -127,10 +128,8 @@ ALTER TABLE ONLY public.orders ALTER COLUMN order_id SET DEFAULT nextval('public
 -- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.accounts (user_id, password, is_admin) FROM stdin;
-user	123456	f
-user1	123456	f
-user2	123456	f
+COPY public.accounts (user_id, password, is_admin, is_active) FROM stdin;
+user1	123456	f	t
 \.
 
 
@@ -171,9 +170,7 @@ COPY public.orders (order_id, user_id, movie_name, total_payment, time_order_mad
 --
 
 COPY public.user_details (user_id, name, email, phone_number, favorites_movies) FROM stdin;
-user	Shaked	Shaked@gmail.com	0544285182	{}
 user1	Shaked	Shaked@gmail.com	0544285182	{}
-user2	Shaked	Shaked@gmail.com	0544285182	{}
 \.
 
 
@@ -222,7 +219,7 @@ ALTER TABLE ONLY public.user_details
     ADD CONSTRAINT user_details_pkey PRIMARY KEY (user_id);
 
 
--- Completed on 2022-03-04 01:54:07
+-- Completed on 2022-03-04 10:52:40
 
 --
 -- PostgreSQL database dump complete

@@ -31,8 +31,10 @@ public class User{
 
     }
 
-    public void logout() {
-
+    public void logout() throws SQLException {
+        // temporary - should not hold dbutils instance
+        Db = new DbUtils();
+        Db.logout(this);
     }
 
     public void viewMovies() {

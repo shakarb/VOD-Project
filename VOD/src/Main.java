@@ -10,7 +10,7 @@ public class Main {
         User user = null;
         try {
             // Register User
-            String userId = "user2";
+            String userId = "user1";
             String password = "123456";
             String name = "Shaked";
             String email = "Shaked@gmail.com";
@@ -73,7 +73,13 @@ public class Main {
                 // actions that registered user can do
             }
 
-
+            try {
+                user.logout();
+            } catch (Exception ex) {
+                System.out.println("Logout failed " + ex.getMessage());
+                exit(1);
+            }
+            System.out.println("Successful logout");
 
 
         }

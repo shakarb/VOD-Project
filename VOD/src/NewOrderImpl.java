@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 public class NewOrderImpl implements NewOrder{
     @Override
     public Order makeOrder(RegisteredUser user, Movie movie) {
+        movie.increasePopularity();
         Order order = new Order();
         order.setUserId(user.getId());
         order.setMovie(movie);

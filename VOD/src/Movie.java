@@ -7,13 +7,13 @@ public class Movie {
     private int year;
     private String[] actors;
     private boolean isAvailable;
-    private double popularity; // orders counter
+    private int popularity; // orders counter
     private ArrayList<RegisteredUser> listeningUsers;
     private double runningTime;
     private int price;
 
     public Movie(String movieTitle, String[] category, int year, String[] actors,
-                 boolean isAvailable,  double inc_popularity, double runningTime, int price) {
+                 boolean isAvailable,  int inc_popularity, double runningTime, int price) {
         this.title = movieTitle;
         this.category = category;
         this.year = year;
@@ -101,5 +101,9 @@ public class Movie {
         System.out.format("Movie: %s%nGenre: %s%nYear: %s%nActors: %s%nPopularity: %s%n" +
                         "Running Time: %s%nPrice: %s%n%n" ,
                 title, Arrays.toString(category), year, Arrays.toString(actors), popularity, runningTime, price);
+    }
+
+    public void increasePopularity(){
+        this.popularity += 1;
     }
 }

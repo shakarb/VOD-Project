@@ -14,7 +14,7 @@ public class GeneralReport implements IVisitor{
     }
     public static void displayResults()
     {
-        System.out.println("Nr of logins:" + loginNo);
+        System.out.println("Nr of logins:   " + loginNo);
         System.out.println("Nr of orders:   " + ordersNo);
         System.out.println("Nr of movies:   " + movieNo);
     }

@@ -23,7 +23,13 @@ public class Admin extends User{
                 runningTime(125).
                 price(25).
                 build();
-        this.getDb().addMovie(newMovie);
+        try{
+            this.getDb().addMovie(newMovie);
+        }
+        catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 
     public void addMovieToAvailables(Movie movie){

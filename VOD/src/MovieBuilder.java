@@ -5,7 +5,7 @@ public class MovieBuilder implements MovieTitle, MovieCategory, MovieYear, Movie
     private int year;
     private String[] actors;
     private boolean isAvailable;
-    private double popularity;
+    private int popularity;
     public double runningTime;
     public int price;
 
@@ -39,7 +39,7 @@ public class MovieBuilder implements MovieTitle, MovieCategory, MovieYear, Movie
     }
 
     @Override
-    public double getPopularity() {
+    public int getPopularity() {
         return this.popularity;
     }
 
@@ -78,7 +78,7 @@ public class MovieBuilder implements MovieTitle, MovieCategory, MovieYear, Movie
     }
 
     @Override
-    public MovieRunningTime popularity(double popularity) {
+    public MovieRunningTime popularity(int popularity) {
         this.popularity = popularity;
         return this;
     }

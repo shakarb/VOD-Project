@@ -62,7 +62,7 @@ public class DbUtils implements IDbUtils {
             Array actorsArr = result.getArray("actors");
             String[] actors = (String[]) actorsArr.getArray();
             boolean isAvailable = result.getBoolean("is_available");
-            double popularity = result.getDouble("popularity");
+            int popularity = result.getInt("popularity");
             double runningTime = result.getDouble("running_time");
             int price = result.getInt("price");
 
@@ -95,7 +95,7 @@ public class DbUtils implements IDbUtils {
             Array actorsArr = result.getArray("actors");
             String[] actors = (String[]) actorsArr.getArray();
             boolean isAvailable = result.getBoolean("is_available");
-            double popularity = result.getDouble("popularity");
+            int popularity = result.getInt("popularity");
             double runningTime = result.getDouble("running_time");
             int price = result.getInt("price");
 
@@ -147,7 +147,7 @@ public class DbUtils implements IDbUtils {
             Array actorsArr = result.getArray("actors");
             String[] actors = (String[]) actorsArr.getArray();
             boolean isAvailable = result.getBoolean("is_available");
-            double popularity = result.getDouble("popularity");
+            int popularity = result.getInt("popularity");
             double runningTime = result.getDouble("running_time");
             int price = result.getInt("price");
 
@@ -186,7 +186,7 @@ public class DbUtils implements IDbUtils {
             Array actorsArr = result.getArray("actors");
             String[] actors = (String[]) actorsArr.getArray();
             boolean isAvailable = result.getBoolean("is_available");
-            double popularity = result.getDouble("popularity");
+            int popularity = result.getInt("popularity");
             double runningTime = result.getDouble("running_time");
             int price = result.getInt("price");
 

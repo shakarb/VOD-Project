@@ -5,7 +5,7 @@ public interface BuildMovie {
     public int getYear();
     public String[] getActors();
     public boolean getIsAvailable();
-    public double getPopularity();
+    public int getPopularity();
     public double getRunningTime();
     public int getPrice();
 }

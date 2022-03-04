@@ -15,6 +15,17 @@ public class Order {
     private Movie movie;
     private int totalPayment;
     private String timeOrderMade;
+    //default constructor, used in the proxy pattern
+    public Order(){}
+
+    //parameters constructor, used when getting an Order from the DB
+    public Order(String userId, Movie movie, int totalPayment, String timeOrderMade){
+        this.userId = userId;
+        this.movie = movie;
+        this.totalPayment = totalPayment;
+        this.timeOrderMade = timeOrderMade;
+
+    }
 
     public Movie getMovie() {
         return this.movie;

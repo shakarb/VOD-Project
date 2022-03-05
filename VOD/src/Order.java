@@ -86,7 +86,8 @@ public class Order {
     public void displayOrder(){
         String display = "Movie name: " + this.getMovie().getTitle() +
                 "\nOrdered at: " + this.getTimeOrderMade() +
-                "\nCost: " + this.getTotalPayment() + "\n\n";
+                "\nCost: " + this.getTotalPayment() +
+                "\n" + getTimeLeft() + "\n\n";
         System.out.println(display);
     }
 }

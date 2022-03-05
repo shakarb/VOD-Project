@@ -144,4 +144,21 @@ public class Main {
         //should display notification at this point...
     }
 
+    //order movie & show the difference in user's orders list.
+    public void main_d(IDbUtils db, User user) throws Exception {
+        if (user instanceof RegisteredUser)  {
+            ((RegisteredUser) user).displayAvailableOrders();
+            ArrayList<Movie> availableMovies = user.getMoviesCollection().getAvailableMovies();
+            if (!availableMovies.isEmpty()){
+                ((RegisteredUser) user).orderMovie(availableMovies.get(0));
+            }
+            //we should see some difference now
+            ((RegisteredUser) user).displayAvailableOrders();
+        }
+        else {
+            RegisteredUser regUser = (RegisteredUser)db.login("1234", "5678");
+            main_d(db, regUser);
+        }
+
+    }
 }

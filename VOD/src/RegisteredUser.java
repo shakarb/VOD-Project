@@ -3,13 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RegisteredUser extends User{
-//    private HashMap<Movie, LocalDateTime> orders;
     private String email;
     private String phoneNumber;
-//    private List<Movie> orderedList = new ArrayList<>();
     private String[] wishlist; //TODO should not be <Movie> ?? also - must be an ArrayList because array is immutable as "ordersList"
     private IOrdersCollection ordersCollection;
     private List<Order> orderList;
+    private List<Movie> newWishList;
 
     public RegisteredUser(String email, String phoneNumber, String[] wishlist) {
         this.ordersCollection = new OrdersCollection();
@@ -28,16 +27,36 @@ public class RegisteredUser extends User{
         //      - ELSE -> DO NOTHING
     }
     public void addMovieToWishlist(Movie movie) {
+        //using array
         movie.subscribe(this);
         int l = this.wishlist.length;
         String[] newWishlist = new String[l + 1];
         System.arraycopy(this.wishlist, 0, newWishlist, 0, l);
         newWishlist[l] = movie.getTitle();;
         this.wishlist = newWishlist;
+
+        //using ArrayList
+        this.newWishList.add(movie);
 		//TODO add query "addToWishList" in the db?
     }
 
     public void removeMovieFromWishlist(Movie movie) {
+        //using array
+        String movieNameToRemove = movie.getTitle();
+        int l = this.wishlist.length - 1;
+        String[] newStringsWishlist = new String[l + 1];
+        int i = 0;
+        for (String s : this.wishlist){
+            if (!s.equals(movieNameToRemove)){
+                newStringsWishlist[i] = s;
+                i++;
+            }
+        }
+        this.wishlist = newStringsWishlist;
+
+        //using ArrayList
+        this.newWishList.remove(movie);
+
         movie.unSubscribe(this);
 		//TODO add query "removeFromWishList" in the db?
     }
@@ -62,15 +81,36 @@ public class RegisteredUser extends User{
     }
 
     public void update(String title){
-        System.out.println(title + " is now available!");
-
         //SET UPDATE FLAG TO TRUE IN THE DB
     }
 
     public void displayWishlist(){
-        for (String s : this.wishlist){
-            System.out.println(s);
+        //using array
+        try {
+            for (String title : this.wishlist){
+                for (Movie m: this.getMoviesCollection().getAllMovies()){
+                    if (m.getTitle().equals(title)){
+                        m.printMovieDetails();
+                    }
+                }
+            }
         }
+        catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        // using ArrayList
+        try {
+            for (Movie m : this.getMoviesCollection().getAllMovies()){
+                if (this.newWishList.contains(m)){
+                    m.printMovieDetails();
+                }
+            }
+        }
+        catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 }
 

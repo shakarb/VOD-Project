@@ -44,8 +44,9 @@ public class Admin extends User{
     }
 
     public void editMovie() {
-        //what can the admin edit here?
+        //what can the admin edit here? TODO discuss that method, consider removing it.
     }
+
 
     public void viewStatistics() {
         try{
@@ -53,12 +54,30 @@ public class Admin extends User{
             SortingStrategy s = new sortByPopularity();
             s.sort(getDb().getAllMovies());
             */
-            // working with DisplayMovies
-            DisplayMovies Dlm = new DisplayMovies(getMoviesCollection().getAllMovies(),new sortByPopularity());
-            List<Movie> myList = Dlm.getSortedList();
+            // demonstrate use of sorting strategy pattern to display movies by 3 different sorting criteria
+            DisplayMovies dlm = new DisplayMovies(getMoviesCollection().getAllMovies(),new sortByPopularity());
+            List<Movie> myList = dlm.getSortedList();
+            System.out.println("Display movies sorted by popularity");
             for (Movie m : myList) {
                 System.out.println(m.getTitle() + ": " + m.getPopularity());
             }
+            // now change the sorting strategy to sort by name
+            dlm.setSortingStrategy(new sortByName());
+            myList = dlm.getSortedList();
+            System.out.println("Display movies sorted by titles");
+            for (Movie m : myList) {
+                System.out.println(m.getTitle());
+            }
+            // now change the sorting strategy to sort by year
+            dlm.setSortingStrategy(new sortByYear());
+            myList = dlm.getSortedList();
+            System.out.println("Display movies sorted by years");
+            for (Movie m : myList) {
+                System.out.println(m.getTitle() + ": " + m.getYear());
+            }
+            // demonstrate use of visitor pattern. the data collected by the visitor calls when making  a new order,
+            // adding a new movie and when a user is login to the system.
+            // this data is kept in the GeneralReport class and displayed by displayResults method of this class.
             GeneralReport.displayResults();
         }
         catch (SQLException ex){

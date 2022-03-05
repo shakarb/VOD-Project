@@ -219,6 +219,7 @@ public class DbUtils implements IDbUtils {
         return ordersList;
     }
 
+    //TODO order have no unique id?
     public void addOrder(Order order) throws SQLException {
         String userId = order.getUserId();
         String movieName = order.getMovie().getTitle();
@@ -228,4 +229,14 @@ public class DbUtils implements IDbUtils {
                 "VALUES (?,?,?,?)";
         vodDb.fetch(query, userId, movieName, totalPayment, timeOrderMade);
     }
+
+    public boolean isWishListUpdated(User user) throws SQLException {
+        //TODO create query
+        return false;
+    }
+
+    public void setWishListUpToDate(User user) throws SQLException{
+        //TODO create query
+    }
+
 }

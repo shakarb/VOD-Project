@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 public class Order {
-
+    //TODO maybe we should add the unique order id to the moment we are creating it?
     // fields
     private String userId;
     private Movie movie;
@@ -55,6 +55,7 @@ public class Order {
         this.timeOrderMade = time.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
     }
 
+
     public String getTimeLeft(){
         LocalDateTime now = LocalDateTime.now();
         String currentTimeAsString = now.format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
@@ -69,17 +70,23 @@ public class Order {
             long diffInMinutes = diff / (60 * 1000) % 60;
             long diffInHours = diff / (60 * 60 * 1000) % 24;
 
+            //if no time left returns null, else returns a string to represent the time left
             if (diffInHours >= 24){
-                System.out.println("This order is no longer available.");
+                return null;
             }
             else {
-                System.out.println(diffInHours + " hours and "+ diffInMinutes + " minutes left to this order.");
+               return diffInHours + " hours and "+ diffInMinutes + " minutes left to this order.";
             }
-
-            return "";
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    public void displayOrder(){
+        String display = "Movie name: " + this.getMovie().getTitle() +
+                "\nOrdered at: " + this.getTimeOrderMade() +
+                "\nCost: " + this.getTotalPayment() + "\n\n";
+        System.out.println(display);
     }
 }

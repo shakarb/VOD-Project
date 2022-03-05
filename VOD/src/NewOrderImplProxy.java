@@ -1,9 +1,7 @@
 public class NewOrderImplProxy implements NewOrder{
     NewOrder order;
-    RegisteredUser user;
 
-    public NewOrderImplProxy(RegisteredUser user){
-        this.user = user;
+    public NewOrderImplProxy(){
         this.order = new NewOrderImpl();
     }
     @Override

@@ -129,7 +129,8 @@ ALTER TABLE ONLY public.orders ALTER COLUMN order_id SET DEFAULT nextval('public
 --
 
 COPY public.accounts (user_id, password, is_admin, is_active) FROM stdin;
-user1	123456	f	t
+123456789	123456	t	f
+1234        5678    f   t
 \.
 
 
@@ -159,7 +160,7 @@ Hitch	{Comedy,Romance}	2005	{"'Eva Mendes'","'Will Smith'","'Amber Valletta'","'
 --
 
 COPY public.orders (order_id, user_id, movie_name, total_payment, time_order_made) FROM stdin;
-3	user1	Titanic	25	02.03.2022 18:50
+3	123456789	Titanic	25	02.03.2022 18:50
 \.
 
 
@@ -170,7 +171,8 @@ COPY public.orders (order_id, user_id, movie_name, total_payment, time_order_mad
 --
 
 COPY public.user_details (user_id, name, email, phone_number, favorites_movies) FROM stdin;
-user1	Shaked	Shaked@gmail.com	0544285182	{}
+123456789	Shaked	Shaked@gmail.com	0544285182	{}
+1234        Gal     gal@g.com           0522222222  {}
 \.
 
 

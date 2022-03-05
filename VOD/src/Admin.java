@@ -44,7 +44,7 @@ public class Admin extends User{
     }
 
     public void editMovie() {
-        //what can the admin edit here?
+        //what can the admin edit here? TODO discuss that method, consider removing it.
     }
 
     public void viewStatistics() {

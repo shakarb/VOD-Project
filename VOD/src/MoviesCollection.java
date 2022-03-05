@@ -84,4 +84,15 @@ public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
         }
         return moviesResults;
     }
+
+    //TODO decide in which collection should the following queries be in.
+    public boolean isWishListUpdated(User user) throws SQLException {
+        //TODO create query
+
+        return false;
+    }
+
+    public void setWishListUpToDate(User user) throws SQLException{
+        //TODO create query
+    }
 }

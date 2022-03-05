@@ -99,7 +99,7 @@ public class Main {
         }
     }
 
-    //add movie to wishlist
+    //add&remove movie to wishlist
     public void main_b(IDbUtils db, User user) throws Exception {
         MoviesCollection mc = (MoviesCollection) user.getMoviesCollection();
         RegisteredUser user1 = (RegisteredUser) user;
@@ -110,6 +110,11 @@ public class Main {
             user1.addMovieToWishlist(availableMovies.get(0));
         }
         System.out.println("After adding new movie to the wishlist");
+        user1.displayWishlist();
+        if (!availableMovies.isEmpty()) {
+            user1.removeMovieFromWishlist(availableMovies.get(0));
+        }
+        System.out.println("After removing the same movie from the wishlist");
         user1.displayWishlist();
     }
 

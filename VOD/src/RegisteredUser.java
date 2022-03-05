@@ -5,7 +5,7 @@ import java.util.List;
 public class RegisteredUser extends User{
     private String email;
     private String phoneNumber;
-    private String[] wishlist; //TODO should not be <Movie> ?? also - must be an ArrayList because array is immutable as "ordersList"
+    private String[] wishlist; //TODO should not be <Movie>? also - better be an ArrayList because array is immutable...
     private IOrdersCollection ordersCollection;
     private List<Order> orderList;
     private List<Movie> newWishList;
@@ -68,11 +68,17 @@ public class RegisteredUser extends User{
     }
 
     public void displayAvailableOrders(){
-        for (Order order : orderList){
-            if (order.getTimeLeft() != null){
-                order.displayOrder();
+        try {
+            ArrayList<Order> allOrders = this.ordersCollection.getUserOrders(this.getId());
+            for (Order order : allOrders){
+                if (order.getTimeLeft() != null){
+                    order.displayOrder();
+                }
             }
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
         }
+
     }
 
     public String getContactDetails() {

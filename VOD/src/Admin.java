@@ -3,6 +3,10 @@ import java.util.List;
 
 public class Admin extends User{
 
+    public Admin(String name, String id, String password){
+        super(name, id, password);
+    }
+
     public void addNewMovie() {
         /*
         Movie newMovie = Movie.startBuild().
@@ -32,19 +36,21 @@ public class Admin extends User{
 
     }
 
+
+
+
     public void addMovieToAvailables(Movie movie){
-        GeneralReport.visit(movie,1);
-        movie.addToAvailables();
+        if (!movie.isAvailable()){
+            GeneralReport.visit(movie,1);
+            movie.addToAvailables();
+        }
+
 
     }
 
     public void removeMovieFromAvailables(Movie movie) {
         GeneralReport.visit(movie,-1);
         movie.removeFromAvailables();
-    }
-
-    public void editMovie() {
-        //what can the admin edit here? TODO discuss that method, consider removing it.
     }
 
 

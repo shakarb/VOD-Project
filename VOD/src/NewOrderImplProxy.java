@@ -6,9 +6,9 @@ public class NewOrderImplProxy implements NewOrder{
     }
     @Override
     public Order makeOrder(RegisteredUser user, Movie movie) {
-        String givenPassword = "1234"; //TODO get user password as input
-        // this.user.Db.check password of this user
-        boolean isPasswordCorrect = true; //TODO get result of password comparison from the DB somehow
+        String givenPassword = "1234"; //TODO in real time - get user password as input
+        // TODO this.user.Db.check password of this user
+        boolean isPasswordCorrect = true;
         if (isPasswordCorrect){
             order.makeOrder(user, movie);
         } else{

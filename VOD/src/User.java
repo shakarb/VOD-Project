@@ -9,6 +9,14 @@ public class User{
     private DbUtils Db;
     private IMoviesCollection moviesCollection;
 
+    public User(String name, String id, String password){
+        this.name = name;
+        this.id = id;
+        this.password = password;
+        this.Db = new DbUtils();
+        this.moviesCollection = new MoviesCollection();
+    }
+
     public String getId() {
         return id;
     }

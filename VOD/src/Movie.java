@@ -70,13 +70,12 @@ public class Movie {
 
     private void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
+
     }
 
     public void addToAvailables() {
-        if (!isAvailable()){
-            notifyMovieIsAvailable();
-            setIsAvailable(true);
-        }
+        notifyMovieIsAvailable();
+        setIsAvailable(true);
     }
 
     public void removeFromAvailables() {

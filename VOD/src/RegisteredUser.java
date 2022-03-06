@@ -5,26 +5,19 @@ import java.util.List;
 public class RegisteredUser extends User{
     private String email;
     private String phoneNumber;
-    private String[] wishlist; //TODO should not be <Movie>? also - better be an ArrayList because array is immutable...
+    private String[] wishlist;
     private IOrdersCollection ordersCollection;
     private List<Order> orderList;
     private List<Movie> newWishList;
+    private String isWishListUpToDate;
 
-    public RegisteredUser(String email, String phoneNumber, String[] wishlist) {
+
+    public RegisteredUser(String name, String id, String password, String email, String phoneNumber, String[] wishlist) {
+        super(name, id, password);
         this.ordersCollection = new OrdersCollection();
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.wishlist = wishlist;
-        try {
-            if (this.getDb().isWishListUpdated(this)){
-                this.getDb().setWishListUpToDate(this);
-                System.out.println("Hi " + this.getName() + "! Your wishlist just updated\n");
-            }
-        } catch (SQLException ex){
-            System.out.println(ex.getMessage());
-        }
-        //QUERY - IF UPDATE FLAG IS TRUE -> DISPLAY "Wishlist list updated!"
-        //      - ELSE -> DO NOTHING
     }
     public void addMovieToWishlist(Movie movie) {
         //using array
@@ -37,7 +30,9 @@ public class RegisteredUser extends User{
 
         //using ArrayList
         this.newWishList.add(movie);
-		//TODO add query "addToWishList" in the db?
+
+		//TODO add query "addMovieToWishList"
+        //TODO add user as subscriber to the given movie
     }
 
     public void removeMovieFromWishlist(Movie movie) {
@@ -58,7 +53,9 @@ public class RegisteredUser extends User{
         this.newWishList.remove(movie);
 
         movie.unSubscribe(this);
-		//TODO add query "removeFromWishList" in the db?
+        //TODO add query "removeMovieFromWishList"
+        //TODO add remove user from subscriber to the given movie
+
     }
 
     public void orderMovie(Movie movie) {
@@ -87,7 +84,10 @@ public class RegisteredUser extends User{
     }
 
     public void update(String title){
-        //SET UPDATE FLAG TO TRUE IN THE DB
+        //TODO set this user IS UPDATE string to "your wish list just updated!".
+    }
+    public void printWelcomeMessage(){
+        System.out.println("Hi " + this.getName() + ", " + this.isWishListUpToDate);
     }
 
     public void displayWishlist(){
@@ -117,6 +117,17 @@ public class RegisteredUser extends User{
             System.out.println(ex.getMessage());
         }
 
+    }
+
+    @Override
+    public void logout(){
+        //TODO set this user IS UPDATE string to "wishlist is up to date.".
+        try{
+            super.logout();
+        }
+        catch (SQLException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }
 

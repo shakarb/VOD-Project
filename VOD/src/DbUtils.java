@@ -25,8 +25,7 @@ public class DbUtils implements IDbUtils {
                 if (isAdmin) {
                     return new Admin();
                 } else {
-                    User registeredUser = getUserDetails(userId);
-                    return registeredUser;
+                    return getUserDetails(userId);
                 }
             }
         }
@@ -138,7 +137,7 @@ public class DbUtils implements IDbUtils {
 
         String query = "INSERT INTO movies (title, category, year, actors, is_available, popularity," +
                 "running_time, price) VALUES (?,?,?,?,?,?,?,?)";
-        vodDb.fetch(query, title, category, year, actors, isAvailable, popularity);
+        vodDb.fetch(query, title, category, year, actors, isAvailable, popularity, runningTime, price);
     }
 
     public ArrayList<Order> getAllOrders() throws SQLException {
@@ -174,8 +173,8 @@ public class DbUtils implements IDbUtils {
                     build();
 
 
-            //Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
-            //ordersList.add(newOrder);
+            Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
+            ordersList.add(newOrder);
         }
         return ordersList;
     }
@@ -213,13 +212,13 @@ public class DbUtils implements IDbUtils {
                     build();
 
 
-            //Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
-            //ordersList.add(newOrder);
+            Order newOrder = new Order(userId, newMovie, totalPayment, timeOrderMade);
+            ordersList.add(newOrder);
         }
         return ordersList;
     }
 
-    //TODO order have no unique id?
+
     public void addOrder(Order order) throws SQLException {
         String userId = order.getUserId();
         String movieName = order.getMovie().getTitle();
@@ -231,12 +230,16 @@ public class DbUtils implements IDbUtils {
     }
 
     public boolean isWishListUpdated(User user) throws SQLException {
-        //TODO create query
+        //create query
         return false;
     }
 
     public void setWishListUpToDate(User user) throws SQLException{
-        //TODO create query
+        //create query
+    }
+
+    public void getAllRegisteredUsers() throws SQLException{
+        //create query
     }
 
 }

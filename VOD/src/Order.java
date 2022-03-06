@@ -9,7 +9,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 public class Order {
-    //TODO maybe we should add the unique order id to the moment we are creating it?
     // fields
     private String userId;
     private Movie movie;
@@ -24,7 +23,6 @@ public class Order {
         this.movie = movie;
         this.totalPayment = totalPayment;
         this.timeOrderMade = timeOrderMade;
-
     }
 
     public Movie getMovie() {

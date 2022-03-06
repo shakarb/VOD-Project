@@ -99,7 +99,7 @@ public class Main {
         }
     }
 
-    //add&remove movie to wishlist
+    //add&remove movie to&from wishlist
     public void main_b(IDbUtils db, User user) throws Exception {
         MoviesCollection mc = (MoviesCollection) user.getMoviesCollection();
         RegisteredUser user1 = (RegisteredUser) user;
@@ -145,8 +145,8 @@ public class Main {
         //user get his update
         String userId = "1234";
         String password = "5678";
-        db.login(userId, password);
-        //should display notification at this point...
+        RegisteredUser reg = (RegisteredUser) db.login(userId, password);
+        reg.printWelcomeMessage();
     }
 
     //order movie & show the difference in user's orders list.

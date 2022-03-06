@@ -21,12 +21,7 @@ public class DbUtils implements IDbUtils {
                 // mark user as active
                 query = "UPDATE accounts SET is_active=? where user_id = ?";
                 vodDb.fetch(query, true, userId);
-
-                if (isAdmin) {
-                    return new Admin();
-                } else {
-                    return getUserDetails(userId);
-                }
+                return getUserDetails(userId);
             }
         }
         return null;
@@ -48,12 +43,16 @@ public class DbUtils implements IDbUtils {
         vodDb.fetch(query, userId, name, email, phoneNumber, new String[] {}, "Wishlist is up to date");
     }
 
-    public RegisteredUser getUserDetails(String userId) throws SQLException {
+    public User getUserDetails(String userId) throws SQLException {
         String query = "SELECT * FROM user_details where user_id = ?";
         ResultSet result = vodDb.fetch(query, userId);
         result.next();
         String name = result.getString("name");
         String password = result.getString("password");
+        boolean isAdmin = result.getBoolean("is_admin");
+        if (isAdmin) {
+           return new Admin(name, userId, password);
+        }
         String email = result.getString("email");
         String phoneNumber = result.getString("phone_number");
         Array wishlistArr = result.getArray("wishlist");
@@ -257,7 +256,7 @@ public class DbUtils implements IDbUtils {
         return wishlistUpdatedStatus;
     }
 
-    public void setWishListUpToDate(User user) throws SQLException{
+    public void setWishListUpToDate(User user) throws SQLException {
         String query = "UPDATE user_details SET is_wishlist_updated=? where user_id = ?";
         vodDb.fetch(query, ((RegisteredUser) user).getWishlistStatus(), user.getId());
     }

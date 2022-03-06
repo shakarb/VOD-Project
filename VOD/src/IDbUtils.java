@@ -13,4 +13,10 @@ public interface IDbUtils {
     ArrayList<Order> getAllOrders() throws SQLException;
     ArrayList<Order> getUserOrders(String userId) throws SQLException;
     void addOrder(Order order) throws SQLException;
+    ArrayList<RegisteredUser> getAllRegisteredUsers() throws SQLException;
+    String getWishlistUpdateStatus(User user) throws SQLException;
+    void setWishListUpToDate(User user) throws SQLException;
+    void updateWishlist(User user) throws SQLException;
+    boolean checkUserPassword(User user, String password) throws SQLException;
+
 }

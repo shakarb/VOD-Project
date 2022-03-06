@@ -58,6 +58,14 @@ public class RegisteredUser extends User{
 
     }
 
+    public String[] getWishlist() {
+        return this.wishlist;
+    }
+
+    public String getWishlistStatus() {
+        return this.isWishListUpToDate;
+    }
+
     public void orderMovie(Movie movie) {
         NewOrder order = new NewOrderImplProxy();
         Order newOrder = order.makeOrder(this, movie);

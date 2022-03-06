@@ -19,7 +19,7 @@ public class DbUtils implements IDbUtils {
             boolean isAdmin = result.getBoolean("is_admin");
             if (retrievedPassword.equals(password)) {
                 // mark user as active
-                query = "UPDATE public.accounts SET is_active=? where user_id = ?";
+                query = "UPDATE accounts SET is_active=? where user_id = ?";
                 vodDb.fetch(query, true, userId);
 
                 if (isAdmin) {
@@ -39,24 +39,27 @@ public class DbUtils implements IDbUtils {
     }
 
     public void register(String userId, String password, String name,String email,
-                           String phoneNumber, String[] favoritesMovies) throws SQLException {
+                           String phoneNumber) throws SQLException {
 
         String query = "INSERT INTO accounts VALUES (?,?)";
         vodDb.fetch(query, userId, password);
 
         query = "INSERT INTO user_details VALUES (?,?,?,?,?)";
-        vodDb.fetch(query, userId, name, email, phoneNumber, favoritesMovies);
+        vodDb.fetch(query, userId, name, email, phoneNumber, new String[] {}, "Wishlist is up to date");
     }
 
     public RegisteredUser getUserDetails(String userId) throws SQLException {
         String query = "SELECT * FROM user_details where user_id = ?";
         ResultSet result = vodDb.fetch(query, userId);
         result.next();
+        String name = result.getString("name");
+        String password = result.getString("password");
         String email = result.getString("email");
         String phoneNumber = result.getString("phone_number");
-        Array favoritesArr = result.getArray("favorites_movies");
-        String[] favoritesMovies = (String[]) favoritesArr.getArray();
-        return new RegisteredUser(email, phoneNumber, favoritesMovies);
+        Array wishlistArr = result.getArray("wishlist");
+        String[] wishlist = (String[]) wishlistArr.getArray();
+        RegisteredUser registeredUser = new RegisteredUser(name, userId, password, email, phoneNumber, wishlist);
+        return registeredUser;
     }
 
     public ArrayList<Movie> getAllMovies() throws SQLException {
@@ -218,7 +221,6 @@ public class DbUtils implements IDbUtils {
         return ordersList;
     }
 
-
     public void addOrder(Order order) throws SQLException {
         String userId = order.getUserId();
         String movieName = order.getMovie().getTitle();
@@ -229,17 +231,52 @@ public class DbUtils implements IDbUtils {
         vodDb.fetch(query, userId, movieName, totalPayment, timeOrderMade);
     }
 
-    public boolean isWishListUpdated(User user) throws SQLException {
-        //create query
-        return false;
+    public ArrayList<RegisteredUser> getAllRegisteredUsers() throws SQLException {
+        ArrayList<RegisteredUser> registeredUsers = new ArrayList<RegisteredUser>();
+        String query = "SELECT * FROM accounts INNER JOIN user_details ON accounts.user_id = user_details.user_id";
+        ResultSet result = vodDb.fetch(query);
+        while (result.next()) {
+            String name = result.getString("name");
+            String userId = result.getString("userId");
+            String password = result.getString("password");
+            String email = result.getString("email");
+            String phoneNumber = result.getString("phone_number");
+            Array wishlistArr = result.getArray("wishlist");
+            String[] wishlist = (String[]) wishlistArr.getArray();
+            RegisteredUser registeredUser = new RegisteredUser(name, userId, password, email, phoneNumber, wishlist);
+            registeredUsers.add(registeredUser);
+        }
+        return registeredUsers;
+    }
+
+    public String getWishlistUpdateStatus(User user) throws SQLException {
+        String query = "SELECT * from user_details where user_id = ?";
+        ResultSet result = vodDb.fetch(query, user.getId());
+        result.next();
+        String wishlistUpdatedStatus = result.getString("is_wishlist_updated");
+        return wishlistUpdatedStatus;
     }
 
     public void setWishListUpToDate(User user) throws SQLException{
-        //create query
+        String query = "UPDATE user_details SET is_wishlist_updated=? where user_id = ?";
+        vodDb.fetch(query, ((RegisteredUser) user).getWishlistStatus(), user.getId());
     }
 
-    public void getAllRegisteredUsers() throws SQLException{
-        //create query
+    public void updateWishlist(User user) throws SQLException {
+        String userId = user.getId();
+        String[] wishlist = ((RegisteredUser) user).getWishlist();
+        String query = "UPDATE user_details SET wishlist = ? where user_id = ?";
+        vodDb.fetch(query, wishlist , userId);
     }
 
+    public boolean checkUserPassword(User user, String password) throws SQLException {
+        String query = "SELECT * FROM accounts where user_id = ?";
+        ResultSet result = vodDb.fetch(query, user.getId());
+        result.next();
+        String retrievedPassword = result.getString("password");
+        if (retrievedPassword.equals(password)) {
+            return true;
+        }
+        return false;
+    }
 }

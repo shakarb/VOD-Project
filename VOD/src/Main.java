@@ -14,8 +14,7 @@ public class Main {
             String name = "Shaked";
             String email = "Shaked@gmail.com";
             String phoneNumber = "0544285182";
-            String[] favoritesMovies = new String[] {};
-            dbUtils.register(userId, password, name, email,phoneNumber, favoritesMovies);
+            dbUtils.register(userId, password, name, email,phoneNumber);
 
             // login Registered user
             user = dbUtils.login(userId, password);

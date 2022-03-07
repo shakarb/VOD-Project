@@ -24,7 +24,7 @@ public class RegisteredUser extends User{
 
     public void setCreditCard(String creditCard){
         this.creditCard = creditCard;
-        this.getDb().setCreditCard(this);
+//        this.getDb().setCreditCard(this);
     }
 
     public String getCreditCard(){
@@ -52,6 +52,7 @@ public class RegisteredUser extends User{
         //TODO add user as subscriber to the given movie - done?
         try{
             this.getDb().updateWishlist(this);
+            this.getDb().updateListeners(movie);
         } catch (SQLException ex){
             System.out.println(ex.getMessage());
             System.exit(-1);
@@ -85,6 +86,7 @@ public class RegisteredUser extends User{
         //TODO add remove user from subscriber to the given movie
         try{
             this.getDb().updateWishlist(this);
+            this.getDb().updateListeners(movie);
         } catch (SQLException ex){
             System.out.println(ex.getMessage());
             System.exit(-1);
@@ -134,6 +136,7 @@ public class RegisteredUser extends User{
             System.exit(-1);
         }
     }
+
     public void printWelcomeMessage(){
         System.out.println("Hi " + this.getName() + ", " + this.isWishListUpToDate);
     }

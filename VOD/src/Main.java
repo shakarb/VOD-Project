@@ -132,9 +132,8 @@ public class Main {
         }
         user.addMovieToWishlist(movie);
         user.logout();
-        //admin
+        //admin set this movie as available
         Admin admin = (Admin)db.login("123456789", "123456");
-        //admin set movie as available
         if (movie != null) {
             movie.addToAvailables();
         } else {
@@ -142,7 +141,7 @@ public class Main {
         }
         admin.logout();
 
-        //user get his update
+        //user gets his update
         user = (RegisteredUser) db.login("1234", "5678");
         user.printWelcomeMessage();
     }

@@ -36,6 +36,16 @@ public class Movie {
         this.price = builder.price;
     }
 
+    public String[] getListeningUsersIds(){
+        String[] users = new String[this.listeningUsers.size()];
+        int i = 0;
+        for (RegisteredUser user : this.listeningUsers){
+            users[i] = user.getId();
+            i++;
+        }
+        return users;
+    }
+
     public static MovieTitle startBuild(){
         return new MovieBuilder();
     }

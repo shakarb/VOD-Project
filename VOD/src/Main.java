@@ -14,7 +14,7 @@ public class Main {
             String name = "Shaked";
             String email = "Shaked@gmail.com";
             String phoneNumber = "0544285182";
-            dbUtils.register(userId, password, name, email,phoneNumber);
+            dbUtils.register(userId, password, name, email, phoneNumber);
 
             // login Registered user
             user = dbUtils.login(userId, password);
@@ -23,7 +23,7 @@ public class Main {
                 System.out.println("Login Failed");
                 exit(-1);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             String error = e.getMessage();
             System.out.println(error);
             exit(1);
@@ -65,7 +65,7 @@ public class Main {
             }
 
             if (user instanceof Admin) {
-                // actions that admin can do
+                ((Admin) user).viewStatistics();
             }
 
             if (user instanceof RegisteredUser) {
@@ -85,12 +85,12 @@ public class Main {
     }
 
     //order movies
-    public void main_a(IDbUtils db, User user) throws Exception{
-        MoviesCollection mc = (MoviesCollection)user.getMoviesCollection();
-        RegisteredUser user1 = (RegisteredUser)user;
+    public void main_a(IDbUtils db, User user) throws Exception {
+        MoviesCollection mc = (MoviesCollection) user.getMoviesCollection();
+        RegisteredUser user1 = (RegisteredUser) user;
         ArrayList<Movie> availableMovies = mc.getAvailableMovies();
-        if (!availableMovies.isEmpty()){
-            for (Movie m: availableMovies) {
+        if (!availableMovies.isEmpty()) {
+            for (Movie m : availableMovies) {
                 System.out.println("Original popularity: " + m.getPopularity());
                 user1.orderMovie(m);
                 System.out.println("New popularity: " + m.getPopularity());
@@ -123,8 +123,8 @@ public class Main {
 
         MoviesCollection mc = (MoviesCollection) user.getMoviesCollection();
         Movie movie = null; // movie to listen on.
-        for (Movie m :mc.getAllMovies()){
-            if (!m.isAvailable()){
+        for (Movie m : mc.getAllMovies()) {
+            if (!m.isAvailable()) {
                 m.addToAvailables();
                 movie = m;
                 break;
@@ -133,10 +133,10 @@ public class Main {
         user.logout();
 
         //admin set movie as available
-        User admin = (Admin)db.login("123456789", "123456");
-        if (movie != null){
+        User admin = (Admin) db.login("123456789", "123456");
+        if (movie != null) {
             movie.addToAvailables();
-        } else{
+        } else {
             exit(-1);
         }
         admin.logout();
@@ -150,17 +150,16 @@ public class Main {
 
     //order movie & show the difference in user's orders list.
     public void main_d(IDbUtils db, User user) throws Exception {
-        if (user instanceof RegisteredUser)  {
+        if (user instanceof RegisteredUser) {
             ((RegisteredUser) user).displayAvailableOrders();
             ArrayList<Movie> availableMovies = user.getMoviesCollection().getAvailableMovies();
-            if (!availableMovies.isEmpty()){
+            if (!availableMovies.isEmpty()) {
                 ((RegisteredUser) user).orderMovie(availableMovies.get(0));
             }
             //we should see some difference now
             ((RegisteredUser) user).displayAvailableOrders();
-        }
-        else {
-            RegisteredUser regUser = (RegisteredUser)db.login("1234", "5678");
+        } else {
+            RegisteredUser regUser = (RegisteredUser) db.login("1234", "5678");
             main_d(db, regUser);
         }
 

@@ -8,7 +8,6 @@ public class RegisteredUser extends User{
     private String phoneNumber;
     private String[] wishlist; // list of the movie titles
     private IOrdersCollection ordersCollection;
-    private List<Order> orderList;
     private List<Movie> newWishList;
     private String isWishListUpToDate;
     private String creditCard;
@@ -53,8 +52,7 @@ public class RegisteredUser extends User{
         //using ArrayList
         this.newWishList.add(movie);
 
-		//TODO add query "addMovieToWishList"
-        //TODO add user as subscriber to the given movie - done?
+
         try{
             this.getDb().updateWishlist(this);
             this.getDb().updateListeners(movie);
@@ -110,7 +108,14 @@ public class RegisteredUser extends User{
     public void orderMovie(Movie movie) {
         NewOrder order = new NewOrderImplProxy();
         Order newOrder = order.makeOrder(this, movie);
-        this.orderList.add(newOrder);
+        try{
+            this.ordersCollection.addOrder(newOrder);
+        }
+        catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            System.exit(-1);
+        }
+
     }
 
     public void displayAvailableOrders(){

@@ -130,7 +130,7 @@ ALTER TABLE ONLY public.orders ALTER COLUMN order_id SET DEFAULT nextval('public
 
 COPY public.accounts (user_id, password, is_admin, is_active) FROM stdin;
 123456789	123456	t	f
-1234        5678    f   t
+1234        5678    f   f
 \.
 
 

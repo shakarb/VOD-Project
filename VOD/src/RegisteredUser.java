@@ -1,15 +1,17 @@
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class RegisteredUser extends User{
     private String email;
     private String phoneNumber;
-    private String[] wishlist;
+    private String[] wishlist; // list of the movie titles
     private IOrdersCollection ordersCollection;
     private List<Order> orderList;
     private List<Movie> newWishList;
     private String isWishListUpToDate;
+    private String creditCard;
 
 
     public RegisteredUser(String name, String id, String password, String email, String phoneNumber, String[] wishlist) {
@@ -19,8 +21,23 @@ public class RegisteredUser extends User{
         this.phoneNumber = phoneNumber;
         this.wishlist = wishlist;
     }
+
+    public void setCreditCard(String creditCard){
+        this.creditCard = creditCard;
+        this.getDb().setCreditCard(this);
+    }
+
+    public String getCreditCard(){
+        return this.creditCard;
+    }
+
     public void addMovieToWishlist(Movie movie) {
         //using array
+        //validate - no double insertions
+        if ((Arrays.stream(this.wishlist).filter(s -> s.equals(movie.getTitle())).findFirst().orElse(null)) != null) {
+            return; // movie is already in the wishlist
+        }
+
         movie.subscribe(this);
         int l = this.wishlist.length;
         String[] newWishlist = new String[l + 1];
@@ -32,11 +49,22 @@ public class RegisteredUser extends User{
         this.newWishList.add(movie);
 
 		//TODO add query "addMovieToWishList"
-        //TODO add user as subscriber to the given movie
+        //TODO add user as subscriber to the given movie - done?
+        try{
+            this.getDb().updateWishlist(this);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            System.exit(-1);
+        }
+
     }
 
     public void removeMovieFromWishlist(Movie movie) {
         //using array
+        //validate - no null remove
+        if ((Arrays.stream(this.wishlist).filter(s -> s.equals(movie.getTitle())).findFirst().orElse(null)) == null) {
+            return; // movie is not in the wishlist
+        }
         String movieNameToRemove = movie.getTitle();
         int l = this.wishlist.length - 1;
         String[] newStringsWishlist = new String[l + 1];
@@ -55,6 +83,12 @@ public class RegisteredUser extends User{
         movie.unSubscribe(this);
         //TODO add query "removeMovieFromWishList"
         //TODO add remove user from subscriber to the given movie
+        try{
+            this.getDb().updateWishlist(this);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            System.exit(-1);
+        }
 
     }
 
@@ -93,6 +127,12 @@ public class RegisteredUser extends User{
 
     public void update(String title){
         //TODO set this user IS UPDATE string to "your wish list just updated!".
+        try {
+            this.getDb().updateWishlist(this);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            System.exit(-1);
+        }
     }
     public void printWelcomeMessage(){
         System.out.println("Hi " + this.getName() + ", " + this.isWishListUpToDate);
@@ -131,6 +171,7 @@ public class RegisteredUser extends User{
     public void logout(){
         //TODO set this user IS UPDATE string to "wishlist is up to date.".
         try{
+            this.getDb().setWishListUpToDate(this);
             super.logout();
         }
         catch (SQLException ex){

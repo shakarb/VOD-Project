@@ -118,9 +118,9 @@ public class Main {
     }
 
     //observer pattern demonstration
-    public void main_c(IDbUtils db, User user) throws Exception {
+    public void main_c(IDbUtils db) throws Exception {
         //Registered user register to movie.
-
+        RegisteredUser user = (RegisteredUser) db.login("1234", "5678");
         MoviesCollection mc = (MoviesCollection) user.getMoviesCollection();
         Movie movie = null; // movie to listen on.
         for (Movie m : mc.getAllMovies()) {
@@ -130,10 +130,11 @@ public class Main {
                 break;
             }
         }
+        user.addMovieToWishlist(movie);
         user.logout();
-
+        //admin
+        Admin admin = (Admin)db.login("123456789", "123456");
         //admin set movie as available
-        User admin = (Admin) db.login("123456789", "123456");
         if (movie != null) {
             movie.addToAvailables();
         } else {
@@ -142,10 +143,8 @@ public class Main {
         admin.logout();
 
         //user get his update
-        String userId = "1234";
-        String password = "5678";
-        RegisteredUser reg = (RegisteredUser) db.login(userId, password);
-        reg.printWelcomeMessage();
+        user = (RegisteredUser) db.login("1234", "5678");
+        user.printWelcomeMessage();
     }
 
     //order movie & show the difference in user's orders list.

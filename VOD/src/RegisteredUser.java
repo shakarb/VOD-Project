@@ -22,9 +22,14 @@ public class RegisteredUser extends User{
         this.wishlist = wishlist;
     }
 
-    public void setCreditCard(String creditCard){
+    public void setCreditCard(String creditCard) {
         this.creditCard = creditCard;
-//        this.getDb().setCreditCard(this);
+        try {
+            this.getDb().setCreditCard(this);
+        } catch (SQLException ex){
+            System.out.println(ex.getMessage());
+            System.exit(-1);
+        }
     }
 
     public String getCreditCard(){

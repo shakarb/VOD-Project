@@ -5,7 +5,7 @@
 -- Dumped from database version 14.2
 -- Dumped by pg_dump version 14.2
 
--- Started on 2022-03-04 10:52:39
+-- Started on 2022-03-07 22:07:38
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -108,7 +108,9 @@ CREATE TABLE public.user_details (
     name text,
     email text,
     phone_number text,
-    favorites_movies text[]
+    wishlist text[],
+    is_wishlist_updated text,
+    credit_card text
 );
 
 
@@ -129,8 +131,8 @@ ALTER TABLE ONLY public.orders ALTER COLUMN order_id SET DEFAULT nextval('public
 --
 
 COPY public.accounts (user_id, password, is_admin, is_active) FROM stdin;
-123456789	123456	t	f
-1234        5678    f   f
+123456	password	f	f
+123	admin	t	f
 \.
 
 
@@ -160,7 +162,6 @@ Hitch	{Comedy,Romance}	2005	{"'Eva Mendes'","'Will Smith'","'Amber Valletta'","'
 --
 
 COPY public.orders (order_id, user_id, movie_name, total_payment, time_order_made) FROM stdin;
-3	123456789	Titanic	25	02.03.2022 18:50
 \.
 
 
@@ -170,9 +171,8 @@ COPY public.orders (order_id, user_id, movie_name, total_payment, time_order_mad
 -- Data for Name: user_details; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.user_details (user_id, name, email, phone_number, favorites_movies) FROM stdin;
-123456789	Shaked	Shaked@gmail.com	0544285182	{}
-1234        Gal     gal@g.com           0522222222  {}
+COPY public.user_details (user_id, name, email, phone_number, wishlist, is_wishlist_updated, credit_card) FROM stdin;
+123456	user	User@gmail.com	0544287165	{}	Wishlist is up-to-date	4585-2011-4992-5111
 \.
 
 
@@ -221,7 +221,7 @@ ALTER TABLE ONLY public.user_details
     ADD CONSTRAINT user_details_pkey PRIMARY KEY (user_id);
 
 
--- Completed on 2022-03-04 10:52:40
+-- Completed on 2022-03-07 22:07:39
 
 --
 -- PostgreSQL database dump complete

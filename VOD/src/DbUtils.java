@@ -14,7 +14,7 @@ public class DbUtils implements IDbUtils {
         String query = "SELECT * FROM accounts where user_id = ?";
         ResultSet result = vodDb.fetch(query, userId);
 
-        while(result.next()) {
+        while (result.next()) {
             String retrievedPassword = result.getString("password");
             boolean isAdmin = result.getBoolean("is_admin");
             if (retrievedPassword.equals(password)) {
@@ -33,14 +33,14 @@ public class DbUtils implements IDbUtils {
         vodDb.fetch(query, false, userId);
     }
 
-    public void register(String userId, String password, String name,String email,
-                           String phoneNumber) throws SQLException {
+    public void register(String userId, String password, String name, String email,
+                         String phoneNumber) throws SQLException {
 
         String query = "INSERT INTO accounts VALUES (?,?)";
         vodDb.fetch(query, userId, password);
 
         query = "INSERT INTO user_details VALUES (?,?,?,?,?)";
-        vodDb.fetch(query, userId, name, email, phoneNumber, new String[] {}, "Wishlist is up to date");
+        vodDb.fetch(query, userId, name, email, phoneNumber, new String[]{}, "Wishlist is up to date");
     }
 
     public User getUserDetails(String userId) throws SQLException {
@@ -51,7 +51,7 @@ public class DbUtils implements IDbUtils {
         String password = result.getString("password");
         boolean isAdmin = result.getBoolean("is_admin");
         if (isAdmin) {
-           return new Admin(name, userId, password);
+            return new Admin(name, userId, password);
         }
         String email = result.getString("email");
         String phoneNumber = result.getString("phone_number");
@@ -65,7 +65,7 @@ public class DbUtils implements IDbUtils {
         ArrayList<Movie> moviesList = new ArrayList<Movie>();
         String query = "SELECT * FROM movies";
         ResultSet result = vodDb.fetch(query);
-        while(result.next()) {
+        while (result.next()) {
             String movieTitle = result.getString("title");
             Array categoriesArr = result.getArray("category");
             String[] category = (String[]) categoriesArr.getArray();
@@ -98,7 +98,7 @@ public class DbUtils implements IDbUtils {
         ArrayList<Movie> moviesList = new ArrayList<Movie>();
         String query = "SELECT * FROM movies where is_available = true";
         ResultSet result = vodDb.fetch(query);
-        while(result.next()) {
+        while (result.next()) {
             String movieTitle = result.getString("title");
             Array categoriesArr = result.getArray("category");
             String[] category = (String[]) categoriesArr.getArray();
@@ -146,7 +146,7 @@ public class DbUtils implements IDbUtils {
         ArrayList<Order> ordersList = new ArrayList<Order>();
         String query = "SELECT * FROM orders";
         ResultSet result = vodDb.fetch(query);
-        while(result.next()) {
+        while (result.next()) {
             String userId = result.getString("user_id");
             int totalPayment = result.getInt("total_payment");
             String timeOrderMade = result.getString("time_order_made");
@@ -265,7 +265,7 @@ public class DbUtils implements IDbUtils {
         String userId = user.getId();
         String[] wishlist = ((RegisteredUser) user).getWishlist();
         String query = "UPDATE user_details SET wishlist = ? where user_id = ?";
-        vodDb.fetch(query, wishlist , userId);
+        vodDb.fetch(query, wishlist, userId);
     }
 
     public boolean checkUserPassword(User user, String password) throws SQLException {
@@ -277,5 +277,15 @@ public class DbUtils implements IDbUtils {
             return true;
         }
         return false;
+    }
+
+    public void setCreditCard(User user) throws SQLException {
+        String query = "UPDATE user_details SET credit_card=? where user_id = ?";
+        vodDb.fetch(query, ((RegisteredUser) user).getCreditCard(), ((RegisteredUser) user).getId());
+    }
+
+    public void updateListeners(Movie movie) throws SQLException {
+        String query = "UPDATE movies SET listening_users = ? where title = ?";
+        vodDb.fetch(query, movie.getListeningUsersIds(), movie.getTitle());
     }
 }

@@ -11,7 +11,7 @@ public class Main {
 
         try {
             // Register User
-            String userId = "user";
+            String userId = "user7";
             String password = "123456";
             String name = "Shaked";
             String email = "Shaked@gmail.com";
@@ -31,7 +31,7 @@ public class Main {
             exit(1);
         }
 
-        //user = new Admin("1", "123", "admin");
+        //user = new Admin("adminName", "amdinId", "root");
         if (user instanceof Admin || user instanceof RegisteredUser) {
             // actions that both admin and registered users can do
 
@@ -74,7 +74,7 @@ public class Main {
             if (user instanceof RegisteredUser) {
                 try {
                     main_a(dbUtils);
-                    main_c(dbUtils);
+                    main_b(dbUtils);
                 } catch(Exception e) {
                     System.out.println(e.getMessage());
                     exit(-1);
@@ -96,6 +96,7 @@ public class Main {
 
     //order movies
     public static void main_a(IDbUtils db) throws Exception {
+        System.out.println("--------------------------- main_a ---------------------------");
         RegisteredUser user1 = (RegisteredUser) db.login("user", "123456");
         MoviesCollection mc = (MoviesCollection) user1.getMoviesCollection();
         ArrayList<Movie> availableMovies = mc.getAvailableMovies();
@@ -104,7 +105,7 @@ public class Main {
             System.out.println(m.getTitle() + " Original popularity: " + m.getPopularity());
             user1.orderMovie(m);
             System.out.println(m.getTitle() + " New popularity: " + m.getPopularity());
-            RegisteredUser user2 = (RegisteredUser) db.login("123456", "123456");
+            RegisteredUser user2 = (RegisteredUser) db.login("user1", "123456");
             user2.orderMovie(m);
             user2.logout();
             System.out.println(m.getTitle() + " New popularity: " + m.getPopularity());
@@ -115,8 +116,8 @@ public class Main {
 
 
     //observer pattern demonstration
-    public static void main_c(IDbUtils db) throws Exception {
-
+    public static void main_b(IDbUtils db) throws Exception {
+        System.out.println("--------------------------- main_b ---------------------------");
         RegisteredUser user = (RegisteredUser) db.login("user", "123456");
         user.printWelcomeMessage();
         user.displayWishlist();
@@ -138,8 +139,7 @@ public class Main {
         user.displayWishlist();
         user.logout();
         //admin set this movie as available
-        //Admin admin = new Admin("123", "123", "admin");
-        Admin admin = (Admin)db.login("123", "admin");
+        Admin admin = (Admin)db.login("adminId", "root");
         if (movie != null) {
             admin.addMovieToAvailables(movie);
         } else {
@@ -158,19 +158,4 @@ public class Main {
         user.logout();
     }
 
-    //order movie & show the difference in user's orders list.
-    public void main_d(IDbUtils db, User user) throws Exception {
-        if (user instanceof RegisteredUser) {
-            ((RegisteredUser) user).displayAvailableOrders();
-            ArrayList<Movie> availableMovies = user.getMoviesCollection().getAvailableMovies();
-            if (!availableMovies.isEmpty()) {
-                ((RegisteredUser) user).orderMovie(availableMovies.get(0));
-            }
-            //we should see some difference now
-            ((RegisteredUser) user).displayAvailableOrders();
-        } else {
-            RegisteredUser regUser = (RegisteredUser) db.login("1234", "5678");
-            main_d(db, regUser);
-        }
-    }
 }

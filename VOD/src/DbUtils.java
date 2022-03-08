@@ -38,8 +38,8 @@ public class DbUtils implements IDbUtils {
     public void register(String userId, String password, String name, String email,
                          String phoneNumber) throws SQLException {
 
-        String query = "INSERT INTO accounts VALUES (?,?)";
-        vodDb.fetch(query, userId, password);
+        String query = "INSERT INTO accounts(user_id, password, name) VALUES (?,?,?)";
+        vodDb.fetch(query, userId, password, name);
 
         query = "INSERT INTO user_details VALUES (?,?,?,?,?,?)";
         vodDb.fetch(query, userId, name, email, phoneNumber, new String[]{}, "Wishlist is up to date");

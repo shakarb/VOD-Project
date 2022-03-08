@@ -41,16 +41,32 @@ public class Admin extends User{
 
     public void addMovieToAvailables(Movie movie){
         if (!movie.isAvailable()){
+            try{
+                movie.addToAvailables();
+                getMoviesCollection().setIsAvailableStatus(movie);
+            }
+            catch(SQLException ex){
+                System.out.println(ex.getMessage());
+                System.exit(-1);
+            }
             GeneralReport.visit(movie,1);
-            movie.addToAvailables();
-        }
 
+        }
 
     }
 
     public void removeMovieFromAvailables(Movie movie) {
-        GeneralReport.visit(movie,-1);
-        movie.removeFromAvailables();
+        if (movie.isAvailable()){
+            GeneralReport.visit(movie,-1);
+            movie.removeFromAvailables();
+            try{
+                getMoviesCollection().setIsAvailableStatus(movie);
+            }
+            catch(SQLException ex){
+                System.out.println(ex.getMessage());
+                System.exit(-1);
+            }
+        }
     }
 
 

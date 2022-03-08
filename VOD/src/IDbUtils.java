@@ -19,4 +19,5 @@ public interface IDbUtils {
     void updateWishlist(User user) throws SQLException;
     boolean checkUserPassword(User user, String password) throws SQLException;
     void setCreditCard(User user) throws SQLException;
+    public void setIsAvailableStatus(Movie movie) throws SQLException;
 }

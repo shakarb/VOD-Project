@@ -13,6 +13,11 @@ public class MoviesCollection implements IMoviesCollection, SearchAlgorithms {
         this.db = new DbUtils();
     }
 
+    public void setIsAvailableStatus(Movie movie) throws SQLException
+    {
+        db.setIsAvailableStatus(movie);
+    }
+
     public void addMovie(Movie movie) throws SQLException{
         db.addMovie(movie);
     }

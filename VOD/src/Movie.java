@@ -108,7 +108,7 @@ public class Movie {
 
     public void printMovieDetails() {
         System.out.format("Movie: %s%nGenre: %s%nYear: %s%nActors: %s%nPopularity: %s%n" +
-                        "Running Time: %s%nPrice: %s%n:Available:%s%n%n" ,
+                        "Running Time: %s%nPrice: %s%nAvailable:%s%n%n" ,
                 title, Arrays.toString(category), year, Arrays.toString(actors), popularity, runningTime, price, isAvailable?"yes":"no");
     }
 

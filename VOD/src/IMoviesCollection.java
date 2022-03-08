@@ -12,4 +12,6 @@ public interface IMoviesCollection {
     public Iterator<Movie> getIteratorAllMovies() throws SQLException;
 
     public Iterator<Movie> getIteratorAvailableMovies() throws SQLException;
+
+    public void setIsAvailableStatus(Movie movie) throws SQLException;
 }

@@ -13,12 +13,14 @@ public class RegisteredUser extends User{
     private String creditCard;
 
 
-    public RegisteredUser(String name, String id, String password, String email, String phoneNumber, String[] wishlist) {
+    public RegisteredUser(String name, String id, String password, String email, String phoneNumber,
+                          String[] wishlist, String wishlistStatus) {
         super(name, id, password);
         this.ordersCollection = new OrdersCollection();
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.wishlist = wishlist;
+        this.isWishListUpToDate = wishlistStatus;
     }
 
     public void setCreditCard(String creditCard) {
@@ -50,7 +52,7 @@ public class RegisteredUser extends User{
         this.wishlist = newWishlist;
 
         //using ArrayList
-        this.newWishList.add(movie);
+        //this.newWishList.add(movie);
 
 
         try{
@@ -140,6 +142,8 @@ public class RegisteredUser extends User{
     public void update(String title){
         //TODO set this user IS UPDATE string to "your wish list just updated!".
         try {
+            this.isWishListUpToDate = "your wishlist just updated!";
+            this.getDb().setWishListUpToDate(this);
             this.getDb().updateWishlist(this);
         } catch (SQLException ex){
             System.out.println(ex.getMessage());
@@ -148,35 +152,36 @@ public class RegisteredUser extends User{
     }
 
     public void printWelcomeMessage(){
-        System.out.println("Hi " + this.getName() + ", " + this.isWishListUpToDate);
+        System.out.println("Hi " + super.getName() + ", " + this.isWishListUpToDate);
     }
 
     public void displayWishlist(){
         //using array
         try {
-            for (String title : this.wishlist){
+            for (int i = 0; i < this.wishlist.length; i++){
                 for (Movie m: this.getMoviesCollection().getAllMovies()){
-                    if (m.getTitle().equals(title)){
+                    if (m.getTitle().equals(this.wishlist[i])){
                         m.printMovieDetails();
                     }
                 }
             }
+
         }
         catch (SQLException ex){
             System.out.println(ex.getMessage());
         }
 
-        // using ArrayList
-        try {
-            for (Movie m : this.getMoviesCollection().getAllMovies()){
-                if (this.newWishList.contains(m)){
-                    m.printMovieDetails();
-                }
-            }
-        }
-        catch (SQLException ex){
-            System.out.println(ex.getMessage());
-        }
+//        // using ArrayList
+//        try {
+//            for (Movie m : this.getMoviesCollection().getAllMovies()){
+//                if (this.newWishList.contains(m)){
+//                    m.printMovieDetails();
+//                }
+//            }
+//        }
+//        catch (SQLException ex){
+//            System.out.println(ex.getMessage());
+//        }
 
     }
 
@@ -184,6 +189,7 @@ public class RegisteredUser extends User{
     public void logout(){
         //TODO set this user IS UPDATE string to "wishlist is up to date.".
         try{
+            this.isWishListUpToDate = "your wishlist is up do date";
             this.getDb().setWishListUpToDate(this);
             super.logout();
         }

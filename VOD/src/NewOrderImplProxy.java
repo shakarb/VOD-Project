@@ -8,7 +8,7 @@ public class NewOrderImplProxy implements NewOrder{
     public Order makeOrder(RegisteredUser user, Movie movie) {
         NewOrder order = new NewOrderImpl();
         Order orderToReturn;
-        String givenPassword = "1234"; //in real time - the app should get user password as input
+        String givenPassword = "123456"; //in real time - the app should get user password as input
 
         boolean isPasswordCorrect = false;
         try{

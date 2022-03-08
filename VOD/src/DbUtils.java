@@ -39,12 +39,13 @@ public class DbUtils implements IDbUtils {
         String query = "INSERT INTO accounts VALUES (?,?)";
         vodDb.fetch(query, userId, password);
 
-        query = "INSERT INTO user_details VALUES (?,?,?,?,?)";
+        query = "INSERT INTO user_details VALUES (?,?,?,?,?,?)";
         vodDb.fetch(query, userId, name, email, phoneNumber, new String[]{}, "Wishlist is up to date");
     }
 
     public User getUserDetails(String userId) throws SQLException {
-        String query = "SELECT * FROM user_details where user_id = ?";
+        String query = "SELECT * FROM accounts FULL JOIN user_details ON accounts.user_id = user_details.user_id " +
+                "where accounts.user_id = ?";
         ResultSet result = vodDb.fetch(query, userId);
         result.next();
         String name = result.getString("name");
@@ -57,7 +58,8 @@ public class DbUtils implements IDbUtils {
         String phoneNumber = result.getString("phone_number");
         Array wishlistArr = result.getArray("wishlist");
         String[] wishlist = (String[]) wishlistArr.getArray();
-        RegisteredUser registeredUser = new RegisteredUser(name, userId, password, email, phoneNumber, wishlist);
+        String wishlistStatus = result.getString("is_wishlist_updated");
+        RegisteredUser registeredUser = new RegisteredUser(name, userId, password, email, phoneNumber, wishlist, wishlistStatus);
         return registeredUser;
     }
 
@@ -242,7 +244,8 @@ public class DbUtils implements IDbUtils {
             String phoneNumber = result.getString("phone_number");
             Array wishlistArr = result.getArray("wishlist");
             String[] wishlist = (String[]) wishlistArr.getArray();
-            RegisteredUser registeredUser = new RegisteredUser(name, userId, password, email, phoneNumber, wishlist);
+            String wishlistStatus = result.getString("is_wishlist_updated");
+            RegisteredUser registeredUser = new RegisteredUser(name, userId, password, email, phoneNumber, wishlist, wishlistStatus);
             registeredUsers.add(registeredUser);
         }
         return registeredUsers;
@@ -287,5 +290,11 @@ public class DbUtils implements IDbUtils {
     public void updateListeners(Movie movie) throws SQLException {
         String query = "UPDATE movies SET listening_users = ? where title = ?";
         vodDb.fetch(query, movie.getListeningUsersIds(), movie.getTitle());
+    }
+
+    public void setIsAvailableStatus(Movie movie) throws SQLException {
+        String query = "UPDATE movies SET is_available = ? where title = ?";
+        vodDb.fetch(query, movie.isAvailable(), movie.getTitle());
+
     }
 }

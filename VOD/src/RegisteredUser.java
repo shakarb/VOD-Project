@@ -87,8 +87,7 @@ public class RegisteredUser extends User{
         this.newWishList.remove(movie);
 
         movie.unSubscribe(this);
-        //TODO add query "removeMovieFromWishList"
-        //TODO add remove user from subscriber to the given movie
+
         try{
             this.getDb().updateWishlist(this);
             this.getDb().updateListeners(movie);
@@ -140,7 +139,7 @@ public class RegisteredUser extends User{
     }
 
     public void update(String title){
-        //TODO set this user IS UPDATE string to "your wish list just updated!".
+
         try {
             this.isWishListUpToDate = "your wishlist just updated!";
             this.getDb().setWishListUpToDate(this);
@@ -187,7 +186,7 @@ public class RegisteredUser extends User{
 
     @Override
     public void logout(){
-        //TODO set this user IS UPDATE string to "wishlist is up to date.".
+
         try{
             this.isWishListUpToDate = "your wishlist is up do date";
             this.getDb().setWishListUpToDate(this);

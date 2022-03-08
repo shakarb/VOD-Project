@@ -7,6 +7,8 @@ public class Main {
     public static void main(String[] args) {
         IDbUtils dbUtils = new DbUtils();
         User user = null;
+        GeneralReport.getStatistics(dbUtils);
+
         try {
             // Register User
             String userId = "user";
@@ -29,16 +31,7 @@ public class Main {
             exit(1);
         }
 
-//        User user = new RegisteredUser("user", "123456", "password",
-//                "User@gmail.com", "32", new String[] {});
-        try {
-            main_a(dbUtils);
-        } catch(Exception e) {
-            System.out.println(e.getMessage());
-            exit(-1);
-        }
-
-        //User user = new Admin("1", "1", "2");
+        //user = new Admin("1", "123", "admin");
         if (user instanceof Admin || user instanceof RegisteredUser) {
             // actions that both admin and registered users can do
 
@@ -68,7 +61,7 @@ public class Main {
                     movie.printMovieDetails();
                 }
                 if (moviesList.isEmpty()) {
-                    System.out.println("There are no movies with higher popularity");
+                    System.out.println("There are no movies with higher popularity\n");
                 }
             } catch (Exception ex) {
                 System.out.println("Fetching movie data failed : " + ex.getMessage());
@@ -91,12 +84,13 @@ public class Main {
             try {
                 user.logout();
             } catch (Exception ex) {
-                System.out.println("Logout failed " + ex.getMessage());
+                System.out.println("Logout failed" + ex.getMessage());
                 exit(1);
             }
             System.out.println("Successful logout");
 
-
+            // Update statistics
+            GeneralReport.updateStatistics(dbUtils);
         }
     }
 
@@ -134,7 +128,13 @@ public class Main {
                 break;
             }
         }
-        user.addMovieToWishlist(movie);
+        if (movie != null) {
+            user.addMovieToWishlist(movie);
+        } else {
+            System.out.println("There are no available movies");
+            user.logout();
+            exit(-1);
+        }
         user.displayWishlist();
         user.logout();
         //admin set this movie as available
@@ -143,6 +143,8 @@ public class Main {
         if (movie != null) {
             admin.addMovieToAvailables(movie);
         } else {
+            System.out.println("There are no available movies");
+            admin.logout();
             exit(-1);
         }
         admin.logout();

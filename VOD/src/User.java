@@ -33,12 +33,6 @@ public class User{
         return moviesCollection;
     }
 
-
-    public void login(String user, String password) {
-        GeneralReport.visit(this,1);
-
-    }
-
     public void logout() throws SQLException {
         // temporary - should not hold dbutils instance
         Db = new DbUtils();

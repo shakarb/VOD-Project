@@ -21,7 +21,9 @@ public class DbUtils implements IDbUtils {
                 // mark user as active
                 query = "UPDATE accounts SET is_active=? where user_id = ?";
                 vodDb.fetch(query, true, userId);
-                return getUserDetails(userId);
+                User user = getUserDetails(userId);
+                GeneralReport.visit(user,1);
+                return user;
             }
         }
         return null;
@@ -295,6 +297,23 @@ public class DbUtils implements IDbUtils {
     public void setIsAvailableStatus(Movie movie) throws SQLException {
         String query = "UPDATE movies SET is_available = ? where title = ?";
         vodDb.fetch(query, movie.isAvailable(), movie.getTitle());
-
     }
+
+    public int[] getStatistics() throws SQLException {
+        int[] statisticsArr = new int[3];
+        String query = "SELECT * From statistics";
+        ResultSet result = vodDb.fetch(query);
+        result.next();
+        statisticsArr[0] = result.getInt("login_nr");
+        statisticsArr[1] = result.getInt("movies_nr");
+        statisticsArr[2] = result.getInt("orders_nr");
+        return statisticsArr;
+    }
+
+    public void updateStatistics(int loginNr, int moviesNr, int ordersNr) throws SQLException {
+        String query = "UPDATE  statistics SET login_nr = ?, movies_nr = ?, orders_nr = ?";
+        ResultSet result = vodDb.fetch(query, loginNr, moviesNr, ordersNr);
+    }
+
+
 }

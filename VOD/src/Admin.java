@@ -83,6 +83,7 @@ public class Admin extends User{
             for (Movie m : myList) {
                 System.out.println(m.getTitle() + ": " + m.getPopularity());
             }
+            System.out.println("\n");
             // now change the sorting strategy to sort by name
             dlm.setSortingStrategy(new sortByName());
             myList = dlm.getSortedList();
@@ -90,6 +91,7 @@ public class Admin extends User{
             for (Movie m : myList) {
                 System.out.println(m.getTitle());
             }
+            System.out.println("\n");
             // now change the sorting strategy to sort by year
             dlm.setSortingStrategy(new sortByYear());
             myList = dlm.getSortedList();
@@ -97,6 +99,7 @@ public class Admin extends User{
             for (Movie m : myList) {
                 System.out.println(m.getTitle() + ": " + m.getYear());
             }
+            System.out.println("\n");
             // demonstrate use of visitor pattern. the data collected by the visitor calls when making  a new order,
             // adding a new movie and when a user is login to the system.
             // this data is kept in the GeneralReport class and displayed by displayResults method of this class.

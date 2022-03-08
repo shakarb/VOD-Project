@@ -38,7 +38,13 @@ public class PostgreSqlDB {
             }
             // execute the query
             //stmt.executeUpdate();
-            result = stmt.executeQuery();
+            //result = stmt.executeQuery();
+            ///*
+            if(query.contains("SELECT")) {
+                result = stmt.executeQuery();
+            } else {
+                stmt.executeUpdate();
+            }//*/
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
